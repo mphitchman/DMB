@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-!pip install pybaseball
+pip install pybaseball
 import pybaseball as pyb
 
 st.set_page_config(layout="wide")
