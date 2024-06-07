@@ -82,8 +82,7 @@ teams.sort()
 col1, col2, col3 = st.columns([1,5,5])
 
 with col1:
-    default_ix = values.teams("VAN")
-    selected_team = st.selectbox("Select a team",teams[0:24],index=default_ix)
+    selected_team = st.selectbox("Select a team",teams[0:24],index=teams.index("VAN")))
 
 
 if selected_team:
