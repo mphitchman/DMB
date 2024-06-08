@@ -82,7 +82,7 @@ def load_hitgl():
     num_columns = ['Age', 'PA', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SH', 'SF', 'GDP', 'SB', 'CS']
     hit_gly[num_columns] = hit_gly[num_columns].apply(pd.to_numeric)
     hit_gly = hit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
-    hit_gly = mph.hit_rate_stats(mph.add_O(hit_gly))
+    hit_gly = hit_rate_stats(add_O(hit_gly))
     return(hit_gly)
   
 hit_gl = load_hitgl()
@@ -119,7 +119,7 @@ pit_gl = load_pitgl()
 
 
 
-teams = list(mph.RJML.unique())
+teams = list(keyID.RJML.unique())
 teams.sort()
 
 
@@ -132,7 +132,7 @@ with col1:
 
 if selected_team:
     hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False)[['Name','PA','O','H','2B','3B','HR','R','RBI','SB','BB','SO','ops']]
-    pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False)[['Name','GS','IP','H','HR','BB','SO','ERA','WHIP','avg','obp','slg']]
+    pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False)[['Name','GS','IP','H','ER','HR','BB','SO','BF','W','L','SV']]
     
     with col2:
         st.header(selected_team+' Hitting')
