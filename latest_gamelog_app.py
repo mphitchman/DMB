@@ -118,7 +118,7 @@ pit_gl = load_pitgl()
 
 
 
-teams = list(keyID.RJML.unique())
+teams = list(keyID.RJML.unique()).append("NB")
 teams.sort()
 
 
@@ -126,14 +126,29 @@ teams.sort()
 col1, col2, col3 = st.columns([1,5,5])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams[0:24],index=teams.index("VAN"))
+    selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
 
 
-if selected_team:
-    hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False).set_index('Name')
+if selected_team!="NB":
+    hit_tm = hit_gl[hit_gl.RJML==selected_team].set_index('Name')
     hit_tm.loc['Team']=hit_tm.sum()
-    hit_tm = hit_rate_stats(hit_tm)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
+    hit_tm = hit_rate_stats(hit_tm).sort_values(by="O",ascending=False)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
     pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
+    pit_tm.loc['Team']=pit_tm.sum()
+    pit_tm = pit_rate_stats(pit_tm)[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
+    
+    with col2:
+        st.header(selected_team+' Hitting')
+        st.dataframe(hit_tm)
+    with col3:
+        st.header(selected_team+' Pitching')
+        st.dataframe(pit_tm)
+
+if selected_team=="NB":
+    hit_tm = hit_gl[hit_gl.SSBL==selected_team].set_index('Name')
+    hit_tm.loc['Team']=hit_tm.sum()
+    hit_tm = hit_rate_stats(hit_tm).sort_values(by="O",ascending=False)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
+    pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
     
