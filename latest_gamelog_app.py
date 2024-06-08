@@ -82,7 +82,6 @@ def load_hitgl():
     num_columns = ['Age', 'PA', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SH', 'SF', 'GDP', 'SB', 'CS']
     hit_gly[num_columns] = hit_gly[num_columns].apply(pd.to_numeric)
     hit_gly = hit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
-    hit_gly = hit_rate_stats(add_O(hit_gly))
     return(hit_gly)
   
 hit_gl = load_hitgl()
@@ -131,8 +130,12 @@ with col1:
 
 
 if selected_team:
-    hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False)[['Name','PA','H','2B','3B','HR','R','RBI','SB','BB','SO','O']]
-    pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False)[['Name','GS','IP','H','ER','HR','BB','SO','BF','W','L','SV']]
+    hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False).set_index('Name')
+    hit_tm.loc['Team']=hit_tm.sum()
+    hit_tm = hit_rate_stats(hit_tm)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
+    pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
+    pit_tm.loc['Team']=pit_tm.sum()
+    pit_tm = pit_rate_stats(pit_tm)[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
     
     with col2:
         st.header(selected_team+' Hitting')
