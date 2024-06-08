@@ -148,14 +148,14 @@ if selected_team!="NB":
 if selected_team=="NB":
     hit_tm = hit_gl[hit_gl.SSBL==selected_team].set_index('Name')
     hit_tm.loc['Team']=hit_tm.sum()
-    hit_tm = hit_rate_stats(hit_tm).sort_values(by="O",ascending=False)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
+    hit_tm = hit_rate_stats(hit_tm)
     pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
-    pit_tm = pit_rate_stats(pit_tm)[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
+    pit_tm = pit_rate_stats(pit_tm)
     
     with col2:
         st.header(selected_team+' Hitting')
-        st.dataframe(hit_tm)
+        st.dataframe(hit_tm.sort_values(by="O",ascending=False)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']])
     with col3:
         st.header(selected_team+' Pitching')
-        st.dataframe(pit_tm)
+        st.dataframe(pit_tm[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']])
