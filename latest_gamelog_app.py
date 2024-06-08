@@ -138,8 +138,6 @@ if selected_team=="NB":
     pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
-    hit_tm = hit_tm.replace('',0)
-    pit_tm = pit_tm.replace('',0)
     
     with col2:
         st.header(selected_team+' Hitting')
@@ -155,8 +153,6 @@ if selected_team!="NB":
     pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
-    hit_tm = hit_tm.style.highlight_null(props="color: transparent;") #to hide the 'None' cells
-    pit_tm = pit_tm.style.highlight_null(props="color: transparent;")
     
     with col2:
         st.header(selected_team+' Hitting')
