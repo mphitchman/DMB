@@ -128,7 +128,7 @@ teams.sort()
 col1, col2, col3 = st.columns([1,5,5])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
+    selected_team = st.selectbox("Select a team",teams[0:25],index=teams.index("VAN"))
 
 
 if selected_team=="NB":
@@ -138,6 +138,8 @@ if selected_team=="NB":
     pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
+    hit_tm = hit_tm.replace('',0)
+    pit_tm = pit_tm.replace('',0)
     
     with col2:
         st.header(selected_team+' Hitting')
