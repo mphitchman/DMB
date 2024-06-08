@@ -133,14 +133,14 @@ with col1:
 if selected_team!="NB":
     hit_tm = hit_gl[hit_gl.RJML==selected_team].set_index('Name')
     hit_tm.loc['Team']=hit_tm.sum()
-    hit_tm = hit_rate_stats(hit_tm).sort_values(by="O",ascending=False)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
+    hit_tm = hit_rate_stats(hit_tm)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
     pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['Name','GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
     
     with col2:
         st.header(selected_team+' Hitting')
-        st.dataframe(hit_tm)
+        st.dataframe(hit_tm.sort_values(by="O",ascending=False))
     with col3:
         st.header(selected_team+' Pitching')
         st.dataframe(pit_tm)
