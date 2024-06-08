@@ -131,7 +131,7 @@ with col1:
 
 
 if selected_team:
-    hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False)[['Name','PA','AB','H','2B','3B','HR','R','RBI','SB','BB','SO','O']]
+    hit_tm = hit_gl[hit_gl.RJML==selected_team].sort_values(by="O",ascending=False)[['Name','PA','H','2B','3B','HR','R','RBI','SB','BB','SO','O']]
     pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False)[['Name','GS','IP','H','ER','HR','BB','SO','BF','W','L','SV']]
     
     with col2:
