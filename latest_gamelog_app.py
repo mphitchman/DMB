@@ -81,7 +81,6 @@ def load_hitgl():
     hit_gly = gl.merge(bbref_key,on="Name",how='left')
     num_columns = ['Age', 'PA', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SH', 'SF', 'GDP', 'SB', 'CS']
     hit_gly[num_columns] = hit_gly[num_columns].apply(pd.to_numeric)
-    keyID = pd.read_csv("csv/keyID.csv")
     hit_gly = hit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
     hit_gly = mph.hit_rate_stats(mph.add_O(hit_gly))
     return(hit_gly)
@@ -111,7 +110,6 @@ def load_pitgl():
     pit_gly = gl.merge(bbref_key,on="Name",how='left')
     num_columns = ['Age', 'GS', 'W', 'L', 'SV', 'IP', 'BF', 'H', 'R', 'ER', 'BB', 'SO', 'HR', 'HBP', 'AB', '2B', '3B', 'IBB', 'GDP', 'SF', 'SB', 'CS']
     pit_gly[num_columns] = pit_gly[num_columns].apply(pd.to_numeric)
-    keyID = pd.read_csv("csv/keyID.csv")
     pit_gly = pit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
     return(pit_gly) 
 
