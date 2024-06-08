@@ -118,7 +118,8 @@ pit_gl = load_pitgl()
 
 
 
-teams = list(keyID.RJML.unique()).append("NB")
+teams = list(keyID.RJML.unique())
+teams.append("NB")
 teams.sort()
 
 
