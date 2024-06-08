@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import requests
 from bs4 import BeautifulSoup as bs
 from io import StringIO
@@ -14,9 +15,9 @@ def flatten(xss):
 
 @st.cache_data
 def hit_rate_stats(df):
-    df['avg'] = round(df['H']/df['AB'],3)
-    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
-    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
+    df['avg'] = round(df['H']/df['AB']*1000,0)
+    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF'])*1000,0)
+    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB']*1000,0)
     df['ops'] = df['obp']+df['slg']
     df['K%'] = round(df['SO']/df['PA']*100,1)
     df['BB%'] = round(df['BB']/df['PA']*100,1)
@@ -39,9 +40,9 @@ def pit_rate_stats(df):
     '''df must have these columns: ['IP','BF','AB','H','2B','3B','HR','ER','BB','SO','HBP','SF']'''
     import numpy as np
     df['Inn'] = np.floor(df['IP'])+10*(df['IP']-np.floor(df['IP']))/3
-    df['avg'] = round(df['H']/df['AB'],3)
-    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
-    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
+    df['avg'] = round(df['H']/df['AB']*1000,0)
+    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF'])*1000,0)
+    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB']*1000,0)
     df['ops'] = df['obp']+df['slg']
     df['K%'] = round(df['SO']/df['BF']*100,1)
     df['BB%'] = round(df['BB']/df['BF']*100,1)
@@ -82,6 +83,7 @@ def load_hitgl():
     num_columns = ['Age', 'PA', 'AB', 'R', 'H', '2B', '3B', 'HR', 'RBI', 'BB', 'IBB', 'SO', 'HBP', 'SH', 'SF', 'GDP', 'SB', 'CS']
     hit_gly[num_columns] = hit_gly[num_columns].apply(pd.to_numeric)
     hit_gly = add_O(hit_gly)
+    hit_gly = hit_gly.replace(np.nan, 0)
     hit_gly = hit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
     return(hit_gly)
   
@@ -110,6 +112,7 @@ def load_pitgl():
     pit_gly = gl.merge(bbref_key,on="Name",how='left')
     num_columns = ['Age', 'GS', 'W', 'L', 'SV', 'IP', 'BF', 'H', 'R', 'ER', 'BB', 'SO', 'HR', 'HBP', 'AB', '2B', '3B', 'IBB', 'GDP', 'SF', 'SB', 'CS']
     pit_gly[num_columns] = pit_gly[num_columns].apply(pd.to_numeric)
+    pit_gly = pit_gly.replace(np.nan, 0)
     pit_gly = pit_gly.merge(keyID[['key_MLB','RJML','SSBL','CJPL']])
     return(pit_gly) 
 
