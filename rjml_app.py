@@ -73,21 +73,37 @@ def pit_rate_stats(df):
     df['BABIP'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
     return(df)
 
+def team_pit_totals(df):
+    pit_count_stats = ['RJML','GS','IP','BF','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','ER','W','L','SV']
+    return(pit_rate_stats(df[pit_count_stats].groupby('RJML').sum()))
 
+def team_hit_totals(df):
+    hit_count_stats = ['RJML','G','PA','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','R','RBI','SB','CS','SH','GDP']
+    return(hit_rate_stats(df[hit_count_stats].groupby('RJML').sum()))
 
-teams = list(mph.RJML.unique())
-teams.append("NB")
-teams.sort()
+hit_summary_columns = ['PA','H','2B','3B','HR','R','RBI','avg','obp','slg','ops','BB%','K%','BABIP']
+pit_summary_columns = ['GS','W','L','SV','ERA','WHIP','avg','obp','slg','ops','BB%','K%','HR9','BABIP']
 
-
+teams = [['League','ALA', 'BRA', 'CAM', 'CC', 'CK', 'DAY', 'DV', 'GH', 'GNB', 'GRF', 'HAL', 'HAR', 
+          'HIG', 'HOM', 'PR', 'RAC', 'RAM', 'RM', 'ROC', 'STE', 'SV', 'TB', 'VAN', 'WHI']
 
 col1, col2, col3 = st.columns([1,5,5])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams[0:24],index=teams.index("VAN"))
+    selected_team = st.selectbox("Select a team",teams[0:25],index=teams.index("VAN"))
 
-
-if selected_team:
+if selected_team == "League":
+    hit_tm = team_hit_totals(hit24)[hit_summary_columns]
+    pit_tm = team_pit_totals(pit24)[pit_summary_columns]
+    with col2:
+        st.header('Team Hitting')
+        st.dataframe(hit_tm)
+    with col3:
+        st.header('Team Pitching')
+        st.dataframe(pit_tm)
+    
+        
+if selected_team != "RJML":
     if selected_team=="NB":
         hit_tm = hit24[hit24.SSBL==selected_team]
         pit_tm = pit24[pit24.SSBL==selected_team]
