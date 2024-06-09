@@ -93,14 +93,14 @@ with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
 
 if selected_team == "League":
-    hit_tm = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
-    pit_tm = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
+    hit_lg = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
+    pit_lg = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
     with col2:
         st.header('Team Hitting')
-        st.dataframe(hit_tm)
+        st.dataframe(hit_lg)
     with col3:
         st.header('Team Pitching')
-        st.dataframe(pit_tm)
+        st.dataframe(pit_lg)
     
         
 if selected_team != "RJML":
