@@ -21,15 +21,8 @@ def load_hit():
 hit24 = load_hit()
 
 @st.cache_data
-def load_pitbref():
-    pf = pyb.pitching_stats_bref()
-    pf = pf.rename(columns={"mlbID": "key_MLB","Name": "Name_bbref"})
-    pf["key_MLB"] = pd.to_numeric(pf["key_MLB"])
-    return(pf[['IP','BF','AB','H','2B','3B','HR','ER','BB','SO','HBP','SF','key_MLB']])
-
-@st.cache_data
 def load_pit():
-    pf = pyb.pitching_stats_bref()
+    pf = pyb.pitching_stats_bref() #baseball reference scrape to get AB,2B,3B,SF, needed for ops
     pf = pf.rename(columns={"mlbID": "key_MLB"})
     pf["key_MLB"] = pd.to_numeric(pf["key_MLB"])
     df = pyb.fg_pitching_data(start_season=2024,qual=10)
@@ -107,8 +100,8 @@ if selected_team == "League":
         
 else:
     if selected_team=="NB":
-        hit_tm = hit24[hit24.SSBL==selected_team]
-        pit_tm = pit24[pit24.SSBL==selected_team]
+        hit_tm = hit24[hit24.SSBL=="NB"]
+        pit_tm = pit24[pit24.SSBL=="NB"]
     else:
         hit_tm = hit24[hit24.RJML==selected_team]
         pit_tm = pit24[pit24.RJML==selected_team]
