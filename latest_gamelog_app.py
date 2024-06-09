@@ -11,10 +11,12 @@ st.title("Yesterday's Player Game Logs")
 
 # functions used
 def flatten(xss):
+    '''flattens a list of lists to a list'''
     return [x for xs in xss for x in xs]
 
 @st.cache_data
 def hit_rate_stats(df):
+    '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','SO','HBP','SF']'''
     df['avg'] = round(df['H']/df['AB']*1000,0)
     df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF'])*1000,0)
     df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB']*1000,0)
@@ -133,27 +135,15 @@ col1, col2, col3 = st.columns([1,5,5])
 with col1:
     selected_team = st.selectbox("Select a team",teams[0:25],index=teams.index("VAN"))
 
-
-if selected_team=="NB":
-    hit_tm = hit_gl[hit_gl.SSBL==selected_team].set_index('Name')
+if selected_team:
+    if selected_team=="NB":
+        hit_tm = hit_gl[hit_gl.SSBL==selected_team].set_index('Name')
+        pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
+    else:
+        hit_tm = hit_gl[hit_gl.RJML==selected_team].set_index('Name')
+        pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     hit_tm.loc['Team']=hit_tm.sum()
     hit_tm = hit_rate_stats(hit_tm)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
-    pit_tm = pit_gl[pit_gl.SSBL==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
-    pit_tm.loc['Team']=pit_tm.sum()
-    pit_tm = pit_rate_stats(pit_tm)[['GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
-    
-    with col2:
-        st.header(selected_team+' Hitting')
-        st.dataframe(hit_tm)
-    with col3:
-        st.header(selected_team+' Pitching')
-        st.dataframe(pit_tm)
-
-if selected_team!="NB":
-    hit_tm = hit_gl[hit_gl.RJML==selected_team].set_index('Name')
-    hit_tm.loc['Team']=hit_tm.sum()
-    hit_tm = hit_rate_stats(hit_tm)[['PA','AB','H','2B','3B','HR','RBI','R','SB','BB','SO','avg','obp','slg','O']]
-    pit_tm = pit_gl[pit_gl.RJML==selected_team].sort_values(by=['IP','SO'],ascending=False).set_index('Name')
     pit_tm.loc['Team']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)[['GS','IP','H','ER','HR','SO','BB','BF','W','L','SV','ERA','WHIP']]
     
@@ -162,4 +152,5 @@ if selected_team!="NB":
         hit_tm
     with col3:
         st.header(selected_team+' Pitching')
-        pit_tm
+        st.dataframe(pit_tm)
+
