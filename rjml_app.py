@@ -68,15 +68,15 @@ def pit_rate_stats(df):
     return(df)
 
 def team_pit_totals(df):
-    pit_count_stats = ['RJML','GS','IP','BF','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','ER','W','L','SV']
+    pit_count_stats = ['RJML','GS','IP','BF','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','ER','W','L','SV','WAR']
     return(pit_rate_stats(df[pit_count_stats].groupby('RJML').sum()))
 
 def team_hit_totals(df):
-    hit_count_stats = ['RJML','G','PA','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','R','RBI','SB','CS','SH','GDP']
+    hit_count_stats = ['RJML','G','PA','AB','H','2B','3B','HR','BB','HBP','SF','IBB','SO','R','RBI','SB','CS','SH','GDP','WAR']
     return(hit_rate_stats(df[hit_count_stats].groupby('RJML').sum()))
 
-hit_summary_columns = ['PA','H','2B','3B','HR','R','RBI','avg','obp','slg','ops','BB%','K%','BABIP']
-pit_summary_columns = ['GS','W','L','SV','ERA','WHIP','avg','obp','slg','ops','BB%','K%','HR9','BABIP']
+hit_summary_columns = ['ops','avg','obp','slg','PA','H','2B','3B','HR','R','RBI','BB%','K%','BABIP','WAR']
+pit_summary_columns = ['ops','avg','obp','slg','GS','W','SV','ERA','WHIP','BB%','K%','HR9','BABIP','WAR']
 hit_lg = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
 pit_lg = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
     
