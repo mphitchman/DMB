@@ -149,7 +149,7 @@ if selected_team:
     
     with col2:
         st.header(selected_team+' Hitting')
-        hit_tm
+        st.dataframe(hit_tm)
     with col3:
         st.header(selected_team+' Pitching')
         st.dataframe(pit_tm)
