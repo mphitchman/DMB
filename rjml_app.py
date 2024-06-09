@@ -10,13 +10,13 @@ st.title("MLB'24 Stats for RJML Teams")
 @st.cache_data
 def load_key():
     return(pd.read_csv("https://mphitchman.com/DMB/keyID.csv"))
-mph=load_key()
+keyID=load_key()
 
 @st.cache_data
 def load_hit():
     df = pyb.fg_batting_data(start_season=2024,qual=10)
     df = df.rename(columns={"IDfg": "key_FG","Team":"MLB"})
-    df = df.merge(mph[mph['type']=="B"][['type','key_FG','RJML']],on="key_FG",how='left').set_index('Name')
+    df = df.merge(keyID[keyID['type']=="B"][['type','key_FG','RJML','SSBL']],on="key_FG",how='left').set_index('Name')
     return(df)
 hit24 = load_hit()
 
@@ -34,7 +34,7 @@ def load_pit():
     pf["key_MLB"] = pd.to_numeric(pf["key_MLB"])
     df = pyb.fg_pitching_data(start_season=2024,qual=10)
     df = df.rename(columns={"IDfg": "key_FG","Team":"MLB"})
-    df = df.merge(mph[mph['type']=="P"][['type','key_FG','key_MLB','RJML']],on="key_FG",how='left')
+    df = df.merge(keyID[keyID['type']=="P"][['type','key_FG','key_MLB','RJML','SSBL']],on="key_FG",how='left')
     df = df.merge(pf[['BF','AB','2B','3B','SF','key_MLB']],on='key_MLB',how='left')
     return(df.set_index('Name'))
 pit24 = load_pit()
