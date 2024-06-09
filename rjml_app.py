@@ -74,7 +74,9 @@ def pit_rate_stats(df):
     return(df)
 
 
+
 teams = list(mph.RJML.unique())
+teams.append("NB")
 teams.sort()
 
 
@@ -86,15 +88,20 @@ with col1:
 
 
 if selected_team:
-    hit24['tm_sel'] = hit24.RJML==selected_team
-    hit_tm = hit24[hit24.RJML==selected_team]
+    if selected_team=="NB":
+        hit_tm = hit24[hit24.SSBL==selected_team]
+        pit_tm = pit24[pit24.SSBL==selected_team]
+    else:
+        hit_tm = hit24[hit24.RJML==selected_team]
+        pit_tm = pit24[pit24.RJML==selected_team]
+    
     hit_tm.loc['total']=hit_tm.sum()
     hit_tm = hit_rate_stats(hit_tm)
     hit_tm['MLB'][-1]="--"
     hit_tm['Age'][-1]=round(hit_tm['Age'][0:-1].mean(),1)
     hit_tm['wRC+'][-1]=round(sum(hit_tm[0:-1]['PA']*hit_tm[0:-1]['wRC+'])/sum(hit_tm[0:-1]['PA']),0)
     hit_tm = hit_tm[['PA','ops','wRC+','WAR','avg','obp','slg','BB%','K%','BABIP','2B','3B','HR','R','RBI','Off','Fld','BsR','MLB','Age']]
-    pit_tm = pit24[pit24.RJML==selected_team]
+    
     pit_tm.loc['total']=pit_tm.sum()
     pit_tm = pit_rate_stats(pit_tm)
     pit_tm['GB%']=round(pit_tm['GB%']*100,1)
