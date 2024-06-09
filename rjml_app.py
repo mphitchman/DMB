@@ -92,10 +92,10 @@ with col1:
 if selected_team == "League":
     with col2:
         st.header('Team Hitting')
-        st.dataframe(hit_lg)
+        st.dataframe(hit_lg[hit_summary_columns])
     with col3:
         st.header('Team Pitching')
-        st.dataframe(pit_lg)
+        st.dataframe(pit_lg[pit_summary_columns])
     
         
 else:
