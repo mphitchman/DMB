@@ -90,11 +90,11 @@ teams = ['League','ALA', 'BRA', 'CAM', 'CC', 'CK', 'DAY', 'DV', 'GH', 'GNB', 'GR
 col1, col2, col3 = st.columns([1,5,5])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams[0:25],index=teams.index("VAN"))
+    selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
 
 if selected_team == "League":
-    hit_tm = team_hit_totals(hit24)[hit_summary_columns]
-    pit_tm = team_pit_totals(pit24)[pit_summary_columns]
+    hit_tm = team_hit_totals(hit24)[hit_summary_columns].sort_value(by='ops',ascending=True)
+    pit_tm = team_pit_totals(pit24)[pit_summary_columns].sort_values(by='ops',ascending=False)
     with col2:
         st.header('Team Hitting')
         st.dataframe(hit_tm)
