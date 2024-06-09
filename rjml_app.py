@@ -84,7 +84,7 @@ def team_hit_totals(df):
 hit_summary_columns = ['PA','H','2B','3B','HR','R','RBI','avg','obp','slg','ops','BB%','K%','BABIP']
 pit_summary_columns = ['GS','W','L','SV','ERA','WHIP','avg','obp','slg','ops','BB%','K%','HR9','BABIP']
 
-teams = [['League','ALA', 'BRA', 'CAM', 'CC', 'CK', 'DAY', 'DV', 'GH', 'GNB', 'GRF', 'HAL', 'HAR', 
+teams = ['League','ALA', 'BRA', 'CAM', 'CC', 'CK', 'DAY', 'DV', 'GH', 'GNB', 'GRF', 'HAL', 'HAR', 
           'HIG', 'HOM', 'PR', 'RAC', 'RAM', 'RM', 'ROC', 'STE', 'SV', 'TB', 'VAN', 'WHI']
 
 col1, col2, col3 = st.columns([1,5,5])
