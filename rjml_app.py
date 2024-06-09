@@ -42,6 +42,7 @@ pit24 = load_pit()
 # rate stat functions
 @st.cache_data
 def hit_rate_stats(df):
+    '''df must have these columns: ['PA','AB','H','2B','3B','HR','ER','BB','SO','HBP','SF']'''
     df['avg'] = round(df['H']/df['AB'],3)
     df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
     df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
@@ -83,9 +84,12 @@ def team_hit_totals(df):
 
 hit_summary_columns = ['PA','H','2B','3B','HR','R','RBI','avg','obp','slg','ops','BB%','K%','BABIP']
 pit_summary_columns = ['GS','W','L','SV','ERA','WHIP','avg','obp','slg','ops','BB%','K%','HR9','BABIP']
+hit_lg = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
+pit_lg = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
+    
 
 teams = ['League','ALA', 'BRA', 'CAM', 'CC', 'CK', 'DAY', 'DV', 'GH', 'GNB', 'GRF', 'HAL', 'HAR', 
-          'HIG', 'HOM', 'PR', 'RAC', 'RAM', 'RM', 'ROC', 'STE', 'SV', 'TB', 'VAN', 'WHI']
+          'HIG', 'HOM', 'PR', 'RAC', 'RAM', 'RM', 'ROC', 'STE', 'SV', 'TB', 'VAN', 'WHI','NB']
 
 col1, col2, col3 = st.columns([1,5,5])
 
@@ -93,8 +97,6 @@ with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
 
 if selected_team == "League":
-    hit_lg = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
-    pit_lg = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
     with col2:
         st.header('Team Hitting')
         st.dataframe(hit_lg)
@@ -103,7 +105,7 @@ if selected_team == "League":
         st.dataframe(pit_lg)
     
         
-if selected_team != "RJML":
+else:
     if selected_team=="NB":
         hit_tm = hit24[hit24.SSBL==selected_team]
         pit_tm = pit24[pit24.SSBL==selected_team]
