@@ -93,7 +93,6 @@ with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
 
 if selected_team == "League":
-    df = df[df["team"].str.contains("Team 1") == False]
     hit_tm = team_hit_totals(hit24[hit24['RJML']!="avail"])[hit_summary_columns].sort_values(by='ops',ascending=False)
     pit_tm = team_pit_totals(pit24[pit24['RJML']!="avail"])[pit_summary_columns].sort_values(by='ops',ascending=True)
     with col2:
