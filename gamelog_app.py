@@ -164,6 +164,16 @@ hit_gl = load_hit()
 name_van_hit = hit_gl[hit_gl['DMB']=="VAN"].sort_values(by="cum_O",ascending=False)['Name'].unique()
 name_nb_hit = hit_gl[hit_gl['DMB']=="NB"].sort_values(by="cum_O",ascending=False)['Name'].unique()
 
+def positions_played(name,min=2):
+    '''extracts positions played (a min of 'min' games) from bbref gamelogs scrape'''
+    x = hit_gl[hit_gl['Name']==name]['Pos'].tolist() # a list of positions played, one element per day, so includes entries like 'PH LF'
+    pos_played = [pos for pos_day in x for pos in pos_day.split()] #this splits each entry by spaces and creates new list
+    pos = ['C','1B','2B','3B','SS','LF','CF','RF','DH']
+    pos_count = []
+    for p in pos:
+        pos_count.append(sum(p == s for s in pos_played))
+    df = pd.DataFrame({'pos':pos, 'games':pos_count}).sort_values(by='games',ascending=False)
+    return(','.join(df[df['games']>=min]['pos'].tolist()))
 
 def hit_roll_rates(df_input=hit_gl,name = "Vinnie Pasquantino",n = 15):
     df_name = df_input[df_input['Name']==name][['Date2','Name']]
