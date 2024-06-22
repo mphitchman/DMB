@@ -135,10 +135,10 @@ st.title("MLB'24 Stats for RJML Teams")
 tab1, tab2 = st.tabs(["Team","Team Comparison"])
 
 with tab1:
-    col1, col2, col3 = st.columns([1,5,5])
+    col1, col2 = st.columns([1,10])
 
     with col1:
-        selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
+        selected_team = st.selectbox("Select a team",teams,index=teams.index("WHI"))
 
     if selected_team:
         hit_tm = team_stats(lg="RJML",tm=selected_team)[0]
@@ -146,11 +146,13 @@ with tab1:
         pit_tm = team_stats(lg="RJML",tm=selected_team)[1]
         
         with col2:
-            st.header(selected_team+' Hitting')
-            st.dataframe(hit_tm)
-        with col3:
-            st.header(selected_team+' Pitching')
-            st.dataframe(pit_tm)
+            tab1,tab2 = st.tabs(['Hitting','Pitching'])
+            with tab1:
+                st.header(selected_team+' Hitting')
+                st.dataframe(hit_tm)
+            with tab2:
+                st.header(selected_team+' Pitching')
+                st.dataframe(pit_tm)
 
 
 with tab2:
