@@ -9,17 +9,17 @@ st.set_page_config(layout="wide")
 ### load tables
 @st.cache_data
 def load_key():
-    return(pd.read_csv("https://mphitchman.com/DMB/keyID.csv"))
+    return(pd.read_csv("https://mphitchman.com/DMB/csv/keyID.csv"))
 keyID=load_key()
 
 @st.cache_data
 def load_hit():
-    return(pd.read_csv("https://mphitchman.com/DMB/hit24.csv"))
+    return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
 hit24 = load_hit()
 
 @st.cache_data
 def load_pit():
-    return(pd.read_csv("https://mphitchman.com/DMB/pit24.csv"))
+    return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24.csv"))
 pit24 = load_pit()
 ######
 
