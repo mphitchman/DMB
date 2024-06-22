@@ -128,7 +128,11 @@ def weighted_avg(df,n="PA",x="xwOBA",rd=3):
 ### Streamlit Page Build ###
 ###########################################
 
-teams = hit24['RJML'].unique().tolist()
+#get nice teams select box list
+mph= hit24.sort_values(by="RJML")
+teams = mph[mph['RJML'].notna()]['RJML'].unique().tolist()
+teams.remove('avail')
+teams
 
 st.title("MLB'24 Stats for RJML Teams")
 
