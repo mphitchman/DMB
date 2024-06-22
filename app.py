@@ -151,12 +151,12 @@ with tab2:
     st.dataframe(df[df['DMB']=='RJML'])
     
 with tab3:
-  col1,col2,col3 = st.columns([2,5,2])
-  x_var = 'RC27_h'
-  y_var = 'RC27_p'
-  fig = px.scatter(tmtot[tmtot['DMB']=='SSBL'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team xWpct by RC27",width=1000, height=600)
-  fig.update_layout(showlegend=False)
-  fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
+    col1,col2,col3 = st.columns([2,5,2])
+    x_var = 'RC27_h'
+    y_var = 'RC27_p'
+    fig = px.scatter(tmtot[tmtot['DMB']=='SSBL'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team xWpct by RC27",width=1000, height=600)
+    fig.update_layout(showlegend=False)
+    fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
     
     with col2:
         st.pyplot(fig.get_figure())
