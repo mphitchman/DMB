@@ -156,8 +156,7 @@ with tab3:
   y_var = 'RC27_p'
   fig = px.scatter(tmtot[tmtot['DMB']=='SSBL'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team xWpct by RC27",width=1000, height=600)
   fig.update_layout(showlegend=False)
-  fig.update_traces(marker=dict(size=12,line=dict(width=2,
-                                                  color='DarkSlateGrey')),
-                    selector=dict(mode='markers'))
+  fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
+    
     with col2:
         st.pyplot(fig.get_figure())
