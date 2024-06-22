@@ -146,14 +146,13 @@ with tab1:
         pit_tm = team_stats(lg="RJML",tm=selected_team)[1]
         
         with col2:
-            tab1,tab2 = st.tabs(['Hitting','Pitching'])
-            with tab1:
+            taba,tabb = st.tabs(['Hitting','Pitching'])
+            with taba:
                 st.header(selected_team+' Hitting')
                 st.dataframe(hit_tm)
-            with tab2:
+            with tabb:
                 st.header(selected_team+' Pitching')
                 st.dataframe(pit_tm)
-
 
 with tab2:
     col1,col2 = st.columns([6,6])
