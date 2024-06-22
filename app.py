@@ -15,12 +15,12 @@ keyID=load_key()
 @st.cache_data
 def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
-hit24 = load_hit()
+hit = load_hit()
 
 @st.cache_data
 def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24.csv"))
-pit24 = load_pit()
+pit = load_pit()
 ######
 
 
@@ -66,6 +66,9 @@ def runs_created(df):
                      (df['AB']+df['BB']+df['HBP']+df['SF']+df['SH']),3)
     df['RC27'] = round(df['RC']/(df['AB']-df['H']+df['GDP']+df['CS']+df['SF']+df['SH'])*27,2)
     return(df)
+
+hit24 = hit_rate_stats(runs_created(hit))
+pit24 = pit_rate_stats(runs_created(pit))
 #####
 
 ### Aggregate functions and tables
@@ -92,7 +95,7 @@ tmtot = lg_team_totals()
 teams = hit24['RJML'].unique().tolist()
 
 def team_stats(lg="RJML",tm="VAN"):
-    if tm not in dmb[dmb['DMB']==lg].team.tolist():
+    if tm not in hit24[lg].tolist():
         return(print(tm+" is not in the "+lg))
     else:
         bf = hit24[hit24[lg]==tm].set_index('Name')
@@ -113,6 +116,11 @@ def team_stats(lg="RJML",tm="VAN"):
         pf3 = pf2[['G','GS','W','L','SV','TBF','Inn','H','ER','HR','BB','SO','era','whip','k%','bb%','hr9','xFIP','RC27','WAR']]
         dfs = [bf3,pf3]
         return(dfs)
+    
+def weighted_avg(df,n="PA",x="xwOBA",rd=3):
+    return(round(sum(df[n]*df[x])/sum(df[n]),rd))
+
+
 ######
 
 
@@ -124,7 +132,7 @@ teams = hit24['RJML'].unique().tolist()
 
 st.title("MLB'24 Stats for RJML Teams")
 
-tab1, tab2, tab3 = st.tabs(["Team","Team Comparison","OPS Viz"])
+tab1, tab2 = st.tabs(["Team","Team Comparison"])
 
 with tab1:
     col1, col2, col3 = st.columns([1,5,5])
@@ -135,7 +143,7 @@ with tab1:
     if selected_team:
         hit_tm = team_stats(lg="RJML",tm=selected_team)[0]
         
-        pit_tm = team_stats(lg="RJML",tm=selected_team)[0]
+        pit_tm = team_stats(lg="RJML",tm=selected_team)[1]
         
         with col2:
             st.header(selected_team+' Hitting')
@@ -146,17 +154,16 @@ with tab1:
 
 
 with tab2:
-    df = lg_team_totals()
-    st.header('Team Snapshot')
-    st.dataframe(df[df['DMB']=='RJML'])
-    
-with tab3:
-    col1,col2,col3 = st.columns([2,5,2])
-    x_var = 'RC27_h'
-    y_var = 'RC27_p'
-    fig = px.scatter(tmtot[tmtot['DMB']=='SSBL'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team xWpct by RC27",width=1000, height=600)
-    fig.update_layout(showlegend=False)
-    fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
-    
+    col1,col2 = st.columns([6,6])
+    with col1:
+        df = lg_team_totals()
+        tms = df[df['DMB']=="RJML"].set_index('Team')
+        st.header('Team Snapshot')
+        st.dataframe(tms[['PA','GS','RC27_h','RC27_p','ops_h','ops_p','WAR_h','WAR_p','xWpct']].sort_values(by='xWpct',ascending=False))
     with col2:
-        st.pyplot(fig.get_figure())
+        x_var = 'RC27_h'
+        y_var = 'RC27_p'
+        fig = px.scatter(tmtot[tmtot['DMB']=='RJML'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team hit and pit RC27")
+        fig.update_layout(showlegend=False)
+        fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
+        st.plotly_chart(fig, use_container_width=True)
