@@ -32,12 +32,16 @@ def IP_to_Inn(x):
     import numpy as np
     return(np.floor(x)+10*(x-np.floor(x))/3)
 
-def positions_played(key_FG):
+def positions_played(keyFG):
     '''assumes you've defined the dataframe 'fld' via fld = load_fielding()'''
-    df = fld[fld['IDfg'] == key_FG].sort_values(by="Inn",ascending=False)
-    df['Pos'].tolist()
-    df['Pos'] = df['Pos'].fillna('')
-    return(",".join(df['Pos'].tolist())) 
+    if keyFG not in fld['IDfg'].tolist():
+        return("")
+    else:
+        df = fld[fld['IDfg'] == keyFG].sort_values(by="Inn",ascending=False)
+        pos_list = df['Pos'].tolist()
+        pos_dict = {'C':'2', '1B':'3', '2B':'4', '3B':'5', 'SS':'6', 'LF':'7', 'CF':'8', 'RF':'9','P':''}
+        pos_num = list((pd.Series(pos_list)).map(pos_dict))
+        return("".join(pos_num))
 
 #### scrape
 keyID=load_key()
