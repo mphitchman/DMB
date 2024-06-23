@@ -16,7 +16,7 @@ keyID=load_key()
 def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
 hit = load_hit()
-hit['Pos'] = hit['Pos'].astype(str)
+hit['Pos'] = hit['Pos'].replace(",","",regex=True)
 @st.cache_data
 def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24.csv"))
