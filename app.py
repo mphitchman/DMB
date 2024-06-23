@@ -152,7 +152,10 @@ with tab1:
             taba,tabb = st.tabs(['Hitting','Pitching'])
             with taba:
                 st.header(selected_team+' Hitting')
-                st.dataframe(hit_tm)
+                st.dataframe(
+                    hit_tm,
+                    column_config={"ops": st.column_config.NumberColumn(format="%.3f")}
+                )
             with tabb:
                 st.header(selected_team+' Pitching')
                 st.dataframe(pit_tm)
