@@ -69,6 +69,8 @@ def runs_created(df):
 
 hit24 = hit_rate_stats(runs_created(hit))
 pit24 = pit_rate_stats(runs_created(pit))
+
+hit24['XBH']=hit24['2B']+hit24['3B']+hit24['HR']
 #####
 
 ### Aggregate functions and tables
@@ -104,8 +106,8 @@ def team_stats(lg="RJML",tm="VAN"):
         bf2 = hit_rate_stats(runs_created(bf))
         bf2.at['Team', 'xwOBA'] = weighted_avg(bf2.drop("Team"),"PA","xwOBA",3) #weighted xwOBA by players PA
         bf2.at['Team', 'Pos'] = '-'
-        bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO']].astype(int)
-        bf3 = bf2[['PA','2B','3B','HR','R','RBI','SB','BB','SO','Def','BsR','avg','obp','slg','ops','xwOBA','RC27','WAR','Pos']]
+        bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']].astype(int)
+        bf3 = bf2[['PA','AB','H','XBH','HR','R','RBI','SB','BB','SO','avg','obp','slg','ops','xwOBA','RC27','WAR','Pos']]
         
         pf = pit24[pit24[lg]==tm].set_index('Name')
         pf.loc['Team']= pf.sum()
@@ -189,7 +191,18 @@ with tab2:
         df = lg_team_totals()
         tms = df[df['DMB']=="RJML"].set_index('Team')
         st.header('Team Snapshot')
-        st.dataframe(tms[['PA','GS','RC27_h','RC27_p','ops_h','ops_p','WAR_h','WAR_p','xWpct']].sort_values(by='xWpct',ascending=False))
+        st.dataframe(
+            tms[['PA','GS','RC27_h','RC27_p','ops_h','ops_p','WAR_h','WAR_p','xWpct']].sort_values(by='xWpct',ascending=False),
+            column_config={
+                        "RC27_h": st.column_config.NumberColumn(format="%.1f"),
+                        "RC27_p": st.column_config.NumberColumn(format="%.1f"),
+                        "ops_h": st.column_config.NumberColumn(format="%.3f"),
+                        "ops_p": st.column_config.NumberColumn(format="%.3f"),
+                        "WAR_h": st.column_config.NumberColumn(format="%.1f"),
+                        "WAR_p": st.column_config.NumberColumn(format="%.1f"),
+                        "xWpct": st.column_config.NumberColumn(format="%.1f")
+                }
+        )
     with col2:
         x_var = 'RC27_h'
         y_var = 'RC27_p'
