@@ -154,12 +154,34 @@ with tab1:
                 st.header(selected_team+' Hitting')
                 st.dataframe(
                     hit_tm,
-                    column_config={"avg": st.column_config.NumberColumn(format="%.3f"),
-                                  "obp": st.column_config.NumberColumn(format="%.3f")}
+                    column_config={
+                        "avg": st.column_config.NumberColumn(format="%.3f"),
+                        "obp": st.column_config.NumberColumn(format="%.3f"),
+                        "slg": st.column_config.NumberColumn(format="%.3f"),
+                        "ops": st.column_config.NumberColumn(format="%.3f"),
+                        "xwOBA": st.column_config.NumberColumn(format="%.3f"),
+                        "RC27": st.column_config.NumberColumn(format="%.1f"),
+                        "WAR": st.column_config.NumberColumn(format="%.1f"),
+                        "Def": st.column_config.NumberColumn(format="%.1f"),
+                        "BsR": st.column_config.NumberColumn(format="%.1f"),
+                    }
                 )
             with tabb:
                 st.header(selected_team+' Pitching')
-                st.dataframe(pit_tm)
+                st.dataframe(
+                    pit_tm,
+                    column_config={
+                        "era": st.column_config.NumberColumn(format="%.2f"),
+                        "xFIP": st.column_config.NumberColumn(format="%.2f"),
+                        "whip": st.column_config.NumberColumn(format="%.2f"),
+                        "WAR": st.column_config.NumberColumn(format="%.1f"),
+                        "RC27": st.column_config.NumberColumn(format="%.1f"),
+                        "hr9": st.column_config.NumberColumn(format="%.1f"),
+                        "bb%": st.column_config.NumberColumn(format="%.1f"),
+                        "k%": st.column_config.NumberColumn(format="%.1f"),
+                        "Inn": st.column_config.NumberColumn(format="%.1f"),
+                    }
+                )
 
 with tab2:
     col1,col2 = st.columns([6,6])
