@@ -154,7 +154,7 @@ with tab1:
                 st.header(selected_team+' Hitting')
                 st.dataframe(
                     hit_tm,
-                    column_config={"ops": st.column_config.NumberColumn(format="%.3f")}
+                    column_config={["avg","obp","slg","ops","xwOBA"]: st.column_config.NumberColumn(format="%.3f")}
                 )
             with tabb:
                 st.header(selected_team+' Pitching')
