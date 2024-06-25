@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os.path
 import plotly.express as px
 
 st.set_page_config(layout="wide")
@@ -136,6 +137,8 @@ teams = mph[mph['RJML'].notna()]['RJML'].unique().tolist()
 teams.remove('avail')
 
 st.title("MLB'24 Stats for RJML Teams")
+
+st.text("Stats through June 24")
 
 tab1, tab2 = st.tabs(["Team","Team Comparison"])
 
