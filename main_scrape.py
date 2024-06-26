@@ -36,7 +36,7 @@ def IP_to_Inn(x):
 def positions_played(keyFG):
     '''assumes you've defined the dataframe 'fld' via fld = load_fielding()'''
     if keyFG not in fld['IDfg'].tolist():
-        return("")
+        return("-")
     else:
         df = fld[fld['IDfg'] == keyFG].sort_values(by="Inn",ascending=False)
         pos_list = df['Pos'].tolist()
