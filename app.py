@@ -17,6 +17,7 @@ keyID=load_key()
 def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
 hit = load_hit()
+#hack for scraping date - couldn't figure out from file creation date
 hit['Pos'] = hit['Pos'].replace(",","",regex=True)
 @st.cache_data
 def load_pit():
@@ -135,7 +136,6 @@ def weighted_avg(df,n="PA",x="xwOBA",rd=3):
 mph= hit24.sort_values(by="RJML")
 teams = mph[mph['RJML'].notna()]['RJML'].unique().tolist()
 teams.remove('avail')
-scrape_date = hit24.scrape_date[0]
 
 st.title("MLB'24 Stats for RJML Teams")
 
@@ -144,12 +144,11 @@ st.title("MLB'24 Stats for RJML Teams")
 
 col1, col2 = st.columns([2,9])
 
-    with col1:
-        selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
-        st.text("Last update: "+scrape_date )
-        
+with col1:
+    selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
+    st.text("Last update: "+hit['date'][0])
 
-        if st.button("Clear Cache"):
+    if st.button("Clear Cache"):
             st.cache_data.clear()
 
     if selected_team:

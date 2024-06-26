@@ -49,11 +49,11 @@ def positions_played(keyFG):
 scrape_date = datetime.today().strftime('%Y-%m-%d')
 keyID=load_key()
 hit24 = add_O(load_hit())
-hit24['scrape_date']=scrape_date
+hit24['date']=scrape_date
 fld = load_fielding()
 hit24['Pos'] = hit24['key_FG'].apply(positions_played)
 pit24 = load_pit()
 pit24['Inn'] = pit24['IP'].apply(IP_to_Inn)
 hit24.to_csv("csv/hit24.csv")
 pit24.to_csv("csv/pit24.csv")
-print("hit24 and pit24 updated and saved to csv folder on"+scrape_date)
+print("hit24 and pit24 updated and saved to csv folder on "+scrape_date)
