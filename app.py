@@ -17,7 +17,7 @@ keyID=load_key()
 def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
 hit = load_hit()
-#hack for scraping date - couldn't figure out from file creation date
+#formatting 
 hit['Pos'] = hit['Pos'].replace(",","",regex=True)
 @st.cache_data
 def load_pit():
@@ -103,7 +103,6 @@ def team_stats(lg="RJML",tm="VAN"):
         return(print(tm+" is not in the "+lg))
     else:
         bf = hit24[hit24[lg]==tm].set_index('Name')
-        bf['Pos'] = bf['Pos'].fillna('')
         bf.loc['Team']= bf.sum()
         bf2 = hit_rate_stats(runs_created(bf))
         bf2.at['Team', 'xwOBA'] = weighted_avg(bf2.drop("Team"),"PA","xwOBA",3) #weighted xwOBA by players PA
