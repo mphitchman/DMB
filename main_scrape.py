@@ -42,7 +42,7 @@ def positions_played(keyFG):
         pos_list = df['Pos'].tolist()
         pos_dict = {'C':'2', '1B':'3', '2B':'4', '3B':'5', 'SS':'6', 'LF':'7', 'CF':'8', 'RF':'9','P':''}
         pos_num = list((pd.Series(pos_list)).map(pos_dict))
-        return("".join(pos_num))
+        return(",".join(pos_num))
 
 #### scrape
 
