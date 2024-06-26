@@ -17,7 +17,7 @@ keyID=load_key()
 def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
 hit = load_hit()
-#formatting 
+hit.Pos = hit.Pos.fillna('')
 hit['Pos'] = hit['Pos'].replace(",","",regex=True)
 @st.cache_data
 def load_pit():
@@ -73,6 +73,8 @@ hit24 = hit_rate_stats(runs_created(hit))
 pit24 = pit_rate_stats(runs_created(pit))
 
 hit24['XBH']=hit24['2B']+hit24['3B']+hit24['HR']
+
+
 #####
 
 ### Aggregate functions and tables
@@ -145,7 +147,7 @@ col1, col2 = st.columns([2,9])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
-    st.text("Last update: "+hit['date'][0])
+    st.text("Last Updated: ")
 
     if st.button("Clear Cache"):
             st.cache_data.clear()
