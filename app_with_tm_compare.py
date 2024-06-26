@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import os.path, time
+import os.path
 import plotly.express as px
 
 st.set_page_config(layout="wide")
@@ -135,22 +135,18 @@ def weighted_avg(df,n="PA",x="xwOBA",rd=3):
 mph= hit24.sort_values(by="RJML")
 teams = mph[mph['RJML'].notna()]['RJML'].unique().tolist()
 teams.remove('avail')
-scrape_date = hit24.scrape_date[0]
 
 st.title("MLB'24 Stats for RJML Teams")
 
+st.text("Stats through June 24")
 
+tab1, tab2 = st.tabs(["Team","Team Comparison"])
 
-
-col1, col2 = st.columns([2,9])
+with tab1:
+    col1, col2 = st.columns([1,8])
 
     with col1:
-        selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
-        st.text("Last update: "+scrape_date )
-        
-
-        if st.button("Clear Cache"):
-            st.cache_data.clear()
+        selected_team = st.selectbox("Select a team",teams,index=teams.index("WHI"))
 
     if selected_team:
         hit_tm = team_stats(lg="RJML",tm=selected_team)[0]
@@ -191,3 +187,29 @@ col1, col2 = st.columns([2,9])
                         "Inn": st.column_config.NumberColumn(format="%.1f"),
                     }
                 )
+
+with tab2:
+    col1,col2 = st.columns([6,6])
+    with col1:
+        df = lg_team_totals()
+        tms = df[df['DMB']=="RJML"].set_index('Team')
+        st.header('Team Snapshot')
+        st.dataframe(
+            tms[['PA','GS','RC27_h','RC27_p','ops_h','ops_p','WAR_h','WAR_p','xWpct']].sort_values(by='xWpct',ascending=False),
+            column_config={
+                        "RC27_h": st.column_config.NumberColumn(format="%.1f"),
+                        "RC27_p": st.column_config.NumberColumn(format="%.1f"),
+                        "ops_h": st.column_config.NumberColumn(format="%.3f"),
+                        "ops_p": st.column_config.NumberColumn(format="%.3f"),
+                        "WAR_h": st.column_config.NumberColumn(format="%.1f"),
+                        "WAR_p": st.column_config.NumberColumn(format="%.1f"),
+                        "xWpct": st.column_config.NumberColumn(format="%.1f")
+                }
+        )
+    with col2:
+        x_var = 'RC27_h'
+        y_var = 'RC27_p'
+        fig = px.scatter(tmtot[tmtot['DMB']=='RJML'].reset_index(), x=x_var,y=y_var, hover_data=['Team','DMB'], color='xWpct',title="Team hit and pit RC27")
+        fig.update_layout(showlegend=False)
+        fig.update_traces(marker=dict(size=12,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
+        st.plotly_chart(fig, use_container_width=True)
