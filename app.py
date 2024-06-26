@@ -143,7 +143,7 @@ st.title("MLB'24 Stats for RJML Teams")
 
 
 
-col1, col2 = st.columns([2,9])
+col1, col2 = st.columns([2,10])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
