@@ -147,7 +147,7 @@ col1, col2 = st.columns([2,9])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index("VAN"))
-    st.text("Last Updated: ")
+    st.write("Last Updated: "+hit['date'].tolist()[0])
 
     if st.button("Clear Cache"):
             st.cache_data.clear()
