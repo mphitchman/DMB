@@ -15,6 +15,6 @@ Files:
 
 `app.py` - the streamlit app for the RJML  [Link to app](https://rjml-mlb24.streamlit.app) If the app is snoozing, feel free to wake it up!
 
-`app_all_leagues.py` - streamlit app for all three leagues. [Link to app](https://dmb-mlb24.streamlit.app) If the app is snoozing, feel free to wake it up!
+`app_all_leagues.py` - streamlit app for all three leagues. [Link to app](https://dmb-mlb24.streamlit.app) Feel free to contact me if you would like your DMB league added to the list!
 
     
