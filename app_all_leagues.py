@@ -128,7 +128,8 @@ col1, col2 = st.columns([2,10])
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
     st.write("Last update: "+hit['date'].tolist()[0])
-    st.write("To check for updates, click button at bottom of page, then reload browser.)")
+    #if we want clear cache button...
+    # st.write("To check for updates, click button at bottom of page, then reload browser.)")
 
     if selected_team == "Team Totals":
         hit_tm = hit_rate_stats(runs_created(hit24[[selected_league]+hit_count_stats].groupby(selected_league).sum()))
@@ -193,21 +194,35 @@ with col2:
         
         
         with colA:
-             fig = px.scatter(hit_tm.reset_index(), x='ops',y='RC27',hover_data = [hovname,'PA'],title=selected_team+" Hitting OPS and RC27")
+             hit_tm['Team']=hit_tm.index=='Team'
+             fig = px.scatter(hit_tm.reset_index(), x='ops',y='RC27',color='Team',
+                              hover_name = hovname,
+                              hover_data = {'Team':False, # remove Team from hover data
+                                            'ops':':.3f',
+                                            'RC27':':.1f',
+                                            'PA': True},
+                                            title=selected_team+" Hitting OPS and RC27")
              fig.add_vline(x=lg_ops, line_width=1, line_dash='dash', line_color='red',annotation_text='mlb avg')
              fig.add_hline(y=lg_rc27, line_width=1, line_dash='dash', line_color='red',annotation_text='mlb avg')
-             fig.update_traces(marker=dict(size=10,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
+             fig.update_traces(marker=dict(size=10,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'),
+                               #hovertemplate='%{hovname}<br>Número de ingressantes=%{y}'
+                               )
              fig.update_layout(showlegend=False)
              st.plotly_chart(fig, use_container_width=True) 
         with colB:
-             fig = px.scatter(pit_tm.reset_index(), y='RC27',x='k-bb%', hover_data=[hovname,'TBF'], title=selected_team+" Pitching RC27 and k-bb%")
+             pit_tm['Team']=pit_tm.index=='Team'
+             fig = px.scatter(pit_tm.reset_index(), y='RC27',x='k-bb%',color='Team',
+                              hover_name = hovname,
+                              hover_data = {'Team':False, # remove Team from hover data
+                                            'k-bb%':':.2f',
+                                            'RC27':':.1f',
+                                            'TBF': True},
+                                            title=selected_team+" Pitching RC27 and k-bb%")
              fig.add_vline(x=lg_kbb, line_width=1, line_dash='dash', line_color='red',annotation_text='mlb avg')
              fig.add_hline(y=lg_rc27, line_width=1, line_dash='dash', line_color='red',annotation_text='mlb avg')
              fig.update_layout(showlegend=False)
              fig.update_traces(marker=dict(size=10,line=dict(width=2,color='DarkSlateGrey')),selector=dict(mode='markers'))
              st.plotly_chart(fig, use_container_width=True)   
 
-if st.button("Clear cache"):
-            st.cache_data.clear()
-
-
+#if st.button("Clear cache"):
+ #           st.cache_data.clear()
