@@ -106,6 +106,7 @@ def team_stats(lg="RJML",tm="VAN"):
 ###########################################
 
 selected_league = 'RJML'
+my_team = 'VAN'
 
 
 st.header("MLB'24 Stats for "+selected_league+" Teams",divider = 'blue')
