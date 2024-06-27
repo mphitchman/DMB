@@ -105,9 +105,9 @@ def team_stats(lg="RJML",tm="VAN"):
 ### Streamlit Page Build ###
 ###########################################
 
-selected_league = 'RJML'
-my_team = 'VAN'
 
+
+selected_league = 'RJML'
 
 st.header("MLB'24 Stats for "+selected_league+" Teams",divider = 'blue')
 
@@ -118,10 +118,13 @@ teams.sort()
 teams.remove('avail')
 teams = teams+['Team Totals']
 
+chosen_team = print(random.choice(teams))
+
+
 col1, col2 = st.columns([2,10])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
+    selected_team = st.selectbox("Select a team",teams,index=teams.index(chosen_team))
     st.write("Last update: "+hit['date'].tolist()[0])
     #if we want clear cache button...
     # st.write("To check for updates, click button at bottom of page, then reload browser.)")
