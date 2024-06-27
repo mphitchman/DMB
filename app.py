@@ -118,7 +118,7 @@ teams.sort()
 teams.remove('avail')
 teams = teams+['Team Totals']
 
-chosen_team = print(random.choice(teams))
+chosen_team = random.choice(teams)
 
 
 col1, col2 = st.columns([2,10])
