@@ -118,7 +118,7 @@ teams.sort()
 teams.remove('avail')
 teams = teams+['Team Totals']
 
-chosen_team = random.choice(teams)
+chosen_team = "VAN"
 
 
 col1, col2 = st.columns([2,10])
@@ -212,7 +212,7 @@ with col2:
              fig = px.scatter(pit_tm.reset_index(), y='RC27',x='k-bb%',color='Team',
                               hover_name = hovname,
                               hover_data = {'Team':False, # remove Team from hover data
-                                            'k-bb%':':.2f',
+                                            'k-bb%':':.1f',
                                             'RC27':':.1f',
                                             'TBF': True},
                                             title=selected_team+" Pitching RC27 and k-bb%")
