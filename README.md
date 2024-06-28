@@ -1,4 +1,4 @@
-A streamlit app for scraping MLB stats for players according to their teams in DMB baseball.
+A streamlit app for showing current MLB stats for players grouped by their tema in a DMB baseball league.
 
 Files: 
 
