@@ -1,4 +1,4 @@
-A streamlit app for showing current MLB stats for players grouped by their tema in a DMB baseball league.
+A streamlit app for showing current MLB stats for players grouped by teams in a DMB baseball league.
 
 Files: 
 
