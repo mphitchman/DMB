@@ -4,7 +4,7 @@ Files:
 
 `main_scrape.py` scrapes the key data tables hit24, pit24 and stores them in the csv folder
 
-`csv/keyID.csv` is the player lookup table matching a player's playerIDs from various sites, and listing their team for various DMB leagues. 
+`csv/keyID.csv` is the player lookup table with these columns: 
   - `Name`, player name
   - `key_DMB`, player universal ID (UID) in Diamond Mind Baseball (DMB)
   - `key_FG`, fangraphs player id
