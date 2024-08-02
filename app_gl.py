@@ -102,7 +102,7 @@ def team_hit_log(tm,lg):
     table = hf[hf[lg]==tm][hit_columns]
     table.loc['Total'] = table.sum()
     table.loc[table.index[-1], 'Name'] = 'Total'
-    table = rates(table)[['Name','O','PA','H','2B','3B','HR','R','RBI','SB','BB','SO','avg','obp','slg','ops']]
+    table = rates(table)[['Name','O','PA','H','2B','3B','HR','R','RBI','SB','BB','SO','avg','obp','slg','ops']].set_index('Name')
     return(table)
 
 def load_pit_gamelog():
@@ -159,7 +159,7 @@ def team_pit_log(tm,lg):
         table = rates_pit(table)
         x = table.loc[table.index[-1],'Inn']
         table.loc[table.index[-1],'IP'] = int((x-int(x))/.333)/10+int(x)
-        tbl_return = table[['Name','H/A','Opp','GS','IP','H','ER','BB','HR','SO','avg','obp','slg','era','whip']]
+        tbl_return = table[['Name','H/A','Opp','GS','IP','H','ER','BB','HR','SO','avg','obp','slg','era','whip']].set_index('Name')
     return(tbl_return)
 
 ######
@@ -169,9 +169,12 @@ def team_pit_log(tm,lg):
 ###########################################
 
 date = dt.datetime.today().strftime('%Y-%m-%d')
-game_date = (dt.datetime.today()+dt.timedelta(days=-1)).strftime('%Y-%m-%d')
-hit_num_cols = ['PA','AB','H','2B','3B','HR','R','RBI','SB','CS','BB','IBB','HBP','SO','SH','SF','GDP']
+game_date = (dt.datetime.today()+dt.timedelta(days=-1))
+display_date = f'{game_date:%A} {game_date:%b} {game_date.day}'
+hit_num_cols = ['O','PA','AB','H','2B','3B','HR','R','RBI','SB','CS','BB','IBB','HBP','SO','SH','SF','GDP']
 pit_num_cols = ['GS', 'W', 'L', 'SV', 'IP', 'H', 'R', 'ER', 'BB','SO', 'HR', 'HBP', 'GSc','AB','2B','3B','IBB','GDP','SF','SB','CS', 'PO','BF']
+
+st.header("How did your players do yesterday?",divider = 'blue')
 
 selected_league = st.selectbox(label='Select a DMB League',options = ['RJML','SSBL','CJPL'],index=0)
 
@@ -181,8 +184,6 @@ elif selected_league == "SSBL":
      my_team = "NB"
 elif selected_league =="CJPL":
      my_team = "OBS"
-
-st.header("Yesterday's Hitting Game Logs for "+selected_league+" Teams",divider = 'blue')
 
 
 #get nice teams list for selectboxes
@@ -203,14 +204,16 @@ with col1:
     if selected_team == "Team Totals":
         team_hit_gl = rates(hf[[selected_league]+hit_num_cols].groupby(selected_league).sum())[['O','PA','H','HR','R','RBI','BB','SO','SB','avg','obp','slg','ops']].sort_values(by=["ops",'O','HR','R'],ascending=False)
         team_pit_gl = rates_pit(pf[[selected_league]+pit_num_cols].groupby(selected_league).sum())[['GS','Inn','H','ER','BB','SO','HR','avg','obp','slg','era','whip']].sort_values(by=["SO"],ascending=False)
+        group = "Team"
     elif selected_team != "Team Totals":
         team_hit_gl = team_hit_log(lg=selected_league,tm=selected_team)
         team_pit_gl = team_pit_log(lg=selected_league,tm=selected_team)
+        group = selected_team
         
 with col2:
     tab1,tab2 = st.tabs(['Hitting','Pitching'])
     with tab1:
-        st.header(selected_team+' - Hitting on '+game_date)
+        st.subheader(group+' hitting, '+display_date)
         st.dataframe(
             team_hit_gl,
             column_config={
@@ -221,7 +224,7 @@ with col2:
             }
         )
     with tab2:
-        st.header(selected_team+' - Pitching on '+game_date)
+        st.subheader(group+' pitching, '+display_date)
         st.dataframe(
             team_pit_gl,
             column_config={
@@ -230,8 +233,11 @@ with col2:
                 "slg": st.column_config.NumberColumn(format="%.3f"),
                 "whip": st.column_config.NumberColumn(format="%.2f"),
                 "era": st.column_config.NumberColumn(format="%.2f"),
+                "Inn": st.column_config.NumberColumn(format="%.1f"),
             }
         )  
+
+st.text("Data gathered from https://www.baseball-reference.com/leagues/daily.fcgi")
 
 #if st.button("Clear cache"):
  #           st.cache_data.clear()
