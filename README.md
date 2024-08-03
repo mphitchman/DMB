@@ -17,4 +17,5 @@ Files:
 
 `app_all_leagues.py` - streamlit app for all three leagues. [Link to app](https://dmb-mlb24.streamlit.app) Feel free to contact me if you would like your DMB league added to the list!
 
+`app_gl.py` - streamlit app to view yesterday's gamelogs by DMB team (gathered from baseball reference). [Link to app](https://dmb-gamelog.streamlit.app)
     
