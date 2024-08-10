@@ -202,8 +202,8 @@ with col1:
     # st.write("To check for updates, click button at bottom of page, then reload browser.)")
 
     if selected_team == "Team Totals":
-        team_hit_gl = rates(hf[[selected_league]+hit_num_cols].groupby(selected_league).sum())[['O','PA','H','HR','R','RBI','BB','SO','SB','avg','obp','slg','ops']].sort_values(by=["ops",'O','HR','R'],ascending=False)
-        team_pit_gl = rates_pit(pf[[selected_league]+pit_num_cols].groupby(selected_league).sum())[['GS','Inn','H','ER','BB','SO','HR','avg','obp','slg','era','whip']].sort_values(by=["SO"],ascending=False)
+        team_hit_gl = rates(hf[[selected_league]+hit_num_cols].groupby(selected_league).sum())[['O','AB','H','2B','HR','R','RBI','BB','SO','SB','avg','obp','slg','ops']].sort_values(by=["ops",'O','HR','R'],ascending=False)
+        team_pit_gl = rates_pit(pf[[selected_league]+pit_num_cols].groupby(selected_league).sum())[['GS','Inn','W','SV','H','ER','HR','BB','SO',,'avg','obp','slg','era','whip']].sort_values(by=["SO"],ascending=False)
         group = "Team"
     elif selected_team != "Team Totals":
         team_hit_gl = team_hit_log(lg=selected_league,tm=selected_team)
