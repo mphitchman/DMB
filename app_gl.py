@@ -159,7 +159,7 @@ def team_pit_log(tm,lg):
         table = rates_pit(table)
         x = table.loc[table.index[-1],'Inn']
         table.loc[table.index[-1],'IP'] = int((x-int(x))/.333)/10+int(x)
-        tbl_return = table[['Name','H/A','Opp','GS','IP','H','ER','BB','HR','SO','avg','obp','slg','era','whip']].set_index('Name')
+        tbl_return = table[['Name','H/A','Opp','GS','IP','W','SV','H','ER','BB','HR','SO','avg','obp','slg','era','whip']].set_index('Name')
     return(tbl_return)
 
 ######
@@ -203,7 +203,7 @@ with col1:
 
     if selected_team == "Team Totals":
         team_hit_gl = rates(hf[[selected_league]+hit_num_cols].groupby(selected_league).sum())[['O','AB','H','2B','HR','R','RBI','BB','SO','SB','avg','obp','slg','ops']].sort_values(by=["ops",'O','HR','R'],ascending=False)
-        team_pit_gl = rates_pit(pf[[selected_league]+pit_num_cols].groupby(selected_league).sum())[['GS','Inn','W','SV','H','ER','HR','BB','SO',,'avg','obp','slg','era','whip']].sort_values(by=["SO"],ascending=False)
+        team_pit_gl = rates_pit(pf[[selected_league]+pit_num_cols].groupby(selected_league).sum())[['GS','Inn','W','SV','H','ER','HR','BB','SO','avg','obp','slg','era','whip']].sort_values(by=["SO"],ascending=False)
         group = "Team"
     elif selected_team != "Team Totals":
         team_hit_gl = team_hit_log(lg=selected_league,tm=selected_team)
