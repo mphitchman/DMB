@@ -18,7 +18,7 @@ hit = load_hit()
 # 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL','avgR', 'obpR', 'slgR', 'opsR']
 #selected columns here:
 #
-select_hit_cols = ['Name','Pos','Age','PA','R','RBI','HR','SB','opbL',
+select_hit_cols = ['Name','Pos','Age','PA','R','RBI','HR','SB','obpL',
                    'slgL','obpR','slgR','XWOBA','BBpct','Kpct','RC27','Def','BsR','WAR']
 
 @st.cache_data
