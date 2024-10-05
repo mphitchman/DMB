@@ -55,11 +55,11 @@ hit24['Pos'] = hit24['key_FG'].apply(positions_played)
 pit24 = load_pit()
 pit24['Inn'] = pit24['IP'].apply(IP_to_Inn)
 
-hit_splits = pd.read_csv("csv/hit24_summary.csv")[['key_FG','avgL','obpL','slgL','opsL','avgR','obpR','slgR','opsR']]
-hit24 = hit24.merge(hit_splits,on='key_FG')
+#hit_splits = pd.read_csv("csv/hit24_summary.csv")[['key_FG','avgL','obpL','slgL','opsL','avgR','obpR','slgR','opsR']]
+#hit24 = hit24.merge(hit_splits,on='key_FG')
 
-pit_splits = pd.read_csv("csv/pit24_summary.csv")[['key_FG','avgL','obpL','slgL','opsL','avgR','obpR','slgR','opsR']]
-pit24 = pit24.merge(pit_splits,on='key_FG')
+#pit_splits = pd.read_csv("csv/pit24_summary.csv")[['key_FG','avgL','obpL','slgL','opsL','avgR','obpR','slgR','opsR']]
+#pit24 = pit24.merge(pit_splits,on='key_FG')
 
 
 hit24.to_csv("csv/hit24.csv")
