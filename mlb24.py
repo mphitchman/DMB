@@ -17,9 +17,9 @@ hit = load_hit()
 #'RC27', 'OPS', 'XWOBA', 'O', 'Def', 'BsR', 'WAR', 'wRC+','RJML', 'SSBL', 'CJPL',
 # 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL','avgR', 'obpR', 'slgR', 'opsR']
 #selected columns here:
-#
 select_hit_cols = ['Name','Pos','Age','PA','R','RBI','HR','SB','obpL',
                    'slgL','obpR','slgR','XWOBA','BBpct','Kpct','RC27','Def','BsR','WAR']
+hit['Pos'] = hit['Pos'].replace(",","",regex=True) #streamlit introduces commas for integers > 999
 
 @st.cache_data
 def load_pit():
@@ -91,18 +91,8 @@ with col2:
     with tab2:
         st.header(selected_team+' - Pitching')
         st.dataframe(
-            pit_tm[select_pit_cols],
-            column_config={
-                "ERA": st.column_config.NumberColumn(format="%.2f"),
-                "XWOBA": st.column_config.NumberColumn(format="%.2f"),
-                "WHIP": st.column_config.NumberColumn(format="%.2f"),
-                "WAR": st.column_config.NumberColumn(format="%.1f"),
-                "RC27": st.column_config.NumberColumn(format="%.1f"),
-                "HR9": st.column_config.NumberColumn(format="%.1f"),
-                "KminusBB": st.column_config.NumberColumn(format="%.1f"),
-                #"k%": st.column_config.NumberColumn(format="%.1f"),
-                #"Inn": st.column_config.NumberColumn(format="%.1f"),
-            }
+            pit_tm[select_pit_cols]
         )
+        
     
     
