@@ -31,8 +31,7 @@ pit = load_pit()
 #       'WAR', 'RJML', 'SSBL', 'CJPL', 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL',
 #       'avgR', 'obpR', 'slgR', 'opsR']
 
-select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%',
-                   'gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
+select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%','gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
 
 ######
 
@@ -63,7 +62,7 @@ col1, col2 = st.columns([2,10])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
-    st.write("Complete MLB24 Season")
+    #st.write("Complete MLB24 Season")
     #if we want clear cache button...
     # st.write("To check for updates, click button at bottom of page, then reload browser.)")
 
@@ -94,14 +93,15 @@ with col2:
             pit_tm[select_pit_cols],
             column_config={
                 "ERA": st.column_config.NumberColumn(format="%.2f"),
-                "XWOBA": st.column_config.NumberColumn(format="%.2f"),
+                "XWOBA": st.column_config.NumberColumn(format="%.3f"),
                 "WHIP": st.column_config.NumberColumn(format="%.2f"),
                 "WAR": st.column_config.NumberColumn(format="%.1f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
                 "hr9": st.column_config.NumberColumn(format="%.1f"),
-               # "KminusBB": st.column_config.NumberColumn(format="%.1f"),
-                "k%": st.column_config.NumberColumn(format="%.1f"),
-                "bb%": st.column_config.NumberColumn(format="%.1f"),
+                "obpL": st.column_config.NumberColumn(format="%.3f"),
+                "slgL": st.column_config.NumberColumn(format="%.3f"),
+                "obpR": st.column_config.NumberColumn(format="%.3f"),
+                "slgR": st.column_config.NumberColumn(format="%.3f")
             }
         )
         
