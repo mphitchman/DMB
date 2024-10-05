@@ -16,16 +16,23 @@ hit = load_hit()
 #['Name', 'Pos', 'Age', 'PA', 'R', 'RBI', '2B', 'HR', 'SB', 'CS', 'BBpct','Kpct', 
 #'RC27', 'OPS', 'XWOBA', 'O', 'Def', 'BsR', 'WAR', 'wRC+','RJML', 'SSBL', 'CJPL',
 # 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL','avgR', 'obpR', 'slgR', 'opsR']
+#selected columns here:
+#
+select_hit_cols = ['Name','Pos','Age','PA','R','RBI','HR','SB','opbL',
+                   'slgL','obpR','slgR','XWOBA','BBpct','Kpct','RC27','Def','BsR','WAR']
 
 @st.cache_data
 def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
+
 #pit columns:
 #['Name', 'G', 'GS', 'TBF', 'W', 'L', 'SV', 'ERA', 'WHIP', 'RC27', 'OPS', 
 #'XWOBA','xFIP', 'KminusBB', 'GBpct', 'HR9', 'WAR', 'RJML', 'SSBL','CJPL',
 #'key_FG', 'avgL', 'obpL', 'slgL', 'opsL', 'avgR', 'obpR','slgR', 'opsR']
 
+select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','KminusBB',
+                   'GBpct', 'HR9', 'WAR', 'obpL', 'slgL', 'obpR','slgR','WAR']
 
 ######
 
@@ -68,11 +75,11 @@ with col2:
     with tab1:
         st.header(selected_team+' - Hitting')
         st.dataframe(
-            hit_tm[['Name','Pos','Age','PA','R','RBI','HR','SB','opbL','slgR','obpR','slgR','XWOBA','OPS','BBpct','Kpct','RC27','Def','BsR','WAR']],
+            hit_tm[select_hit_cols],
             column_config={
                 #"avg": st.column_config.NumberColumn(format="%.3f"),
-                "opsR": st.column_config.NumberColumn(format="%.3f"),
-                "opsL": st.column_config.NumberColumn(format="%.3f"),
+                #"obpR": st.column_config.NumberColumn(format="%.3f"),
+                #"opsL": st.column_config.NumberColumn(format="%.3f"),
                 "OPS": st.column_config.NumberColumn(format="%.3f"),
                 "XWOBA": st.column_config.NumberColumn(format="%.3f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
@@ -84,8 +91,7 @@ with col2:
     with tab2:
         st.header(selected_team+' - Pitching')
         st.dataframe(
-            pit_tm[['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 
-'XWOBA','KminusBB', 'GBpct', 'HR9', 'WAR', 'obpL', 'slgL', 'obpR','slgR','WAR']],
+            pit_tm[select_pit_cols],
             column_config={
                 "ERA": st.column_config.NumberColumn(format="%.2f"),
                 "XWOBA": st.column_config.NumberColumn(format="%.2f"),
