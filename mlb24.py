@@ -48,7 +48,7 @@ st.header("MLB'24 Stats for "+selected_league+" Teams",divider = 'blue')
 
 
 #get nice teams list for selectboxes
-teams = hit24[hit24[selected_league].notna()][selected_league].unique().tolist()
+teams = hit[hit[selected_league].notna()][selected_league].unique().tolist()
 teams.sort()
 
 
