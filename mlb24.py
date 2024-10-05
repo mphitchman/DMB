@@ -31,7 +31,7 @@ pit = load_pit()
 #       'WAR', 'RJML', 'SSBL', 'CJPL', 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL',
 #       'avgR', 'obpR', 'slgR', 'opsR']
 
-select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%','gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
+select_pit_cols = ['Name', 'Age','G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%','gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
 
 ######
 
