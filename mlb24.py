@@ -25,14 +25,13 @@ hit['Pos'] = hit['Pos'].replace(",","",regex=True) #streamlit introduces commas 
 def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
-
 #pit columns:
 #['Name', 'G', 'GS', 'TBF', 'W', 'L', 'SV', 'ERA', 'WHIP', 'RC27', 'OPS', 
 #'XWOBA','xFIP', 'KminusBB', 'GBpct', 'HR9', 'WAR', 'RJML', 'SSBL','CJPL',
 #'key_FG', 'avgL', 'obpL', 'slgL', 'opsL', 'avgR', 'obpR','slgR', 'opsR']
 
-select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','KminusBB',
-                   'GBpct', 'HR9', 'WAR', 'obpL', 'slgL', 'obpR','slgR','WAR']
+select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%',
+                   'gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
 
 ######
 
@@ -91,7 +90,18 @@ with col2:
     with tab2:
         st.header(selected_team+' - Pitching')
         st.dataframe(
-            pit_tm[select_pit_cols]
+            pit_tm[select_pit_cols],
+            column_config={
+                "ERA": st.column_config.NumberColumn(format="%.2f"),
+                "XWOBA": st.column_config.NumberColumn(format="%.2f"),
+                "WHIP": st.column_config.NumberColumn(format="%.2f"),
+                "WAR": st.column_config.NumberColumn(format="%.1f"),
+                "RC27": st.column_config.NumberColumn(format="%.1f"),
+                "HR9": st.column_config.NumberColumn(format="%.1f"),
+               # "KminusBB": st.column_config.NumberColumn(format="%.1f"),
+                "k%": st.column_config.NumberColumn(format="%.1f"),
+                "bb%": st.column_config.NumberColumn(format="%.1f"),
+            }
         )
         
     
