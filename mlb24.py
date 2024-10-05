@@ -26,9 +26,10 @@ def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
 #pit columns:
-#['Name', 'G', 'GS', 'TBF', 'W', 'L', 'SV', 'ERA', 'WHIP', 'RC27', 'OPS', 
-#'XWOBA','xFIP', 'KminusBB', 'GBpct', 'HR9', 'WAR', 'RJML', 'SSBL','CJPL',
-#'key_FG', 'avgL', 'obpL', 'slgL', 'opsL', 'avgR', 'obpR','slgR', 'opsR']
+#['Unnamed: 0', 'Name', 'G', 'GS', 'TBF', 'W', 'L', 'SV', 'ERA', 'WHIP',
+#       'RC27', 'OPS', 'XWOBA', 'xFIP', 'k%', 'bb%', 'k-bb%', 'gb%', 'hr9',
+#       'WAR', 'RJML', 'SSBL', 'CJPL', 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL',
+#       'avgR', 'obpR', 'slgR', 'opsR']
 
 select_pit_cols = ['Name', 'G', 'GS', 'TBF', 'ERA', 'WHIP', 'RC27', 'XWOBA','k%','bb%',
                    'gb%', 'hr9', 'obpL', 'slgL', 'obpR','slgR','WAR']
@@ -97,7 +98,7 @@ with col2:
                 "WHIP": st.column_config.NumberColumn(format="%.2f"),
                 "WAR": st.column_config.NumberColumn(format="%.1f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
-                "HR9": st.column_config.NumberColumn(format="%.1f"),
+                "hr9": st.column_config.NumberColumn(format="%.1f"),
                # "KminusBB": st.column_config.NumberColumn(format="%.1f"),
                 "k%": st.column_config.NumberColumn(format="%.1f"),
                 "bb%": st.column_config.NumberColumn(format="%.1f"),
