@@ -55,7 +55,7 @@ teams.sort()
 col1, col2 = st.columns([2,10])
 
 with col1:
-    selected_team = st.selectbox("Select a team",teams,index=teams.index(chosen_team))
+    selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
     st.write("Complete MLB24 Season")
     #if we want clear cache button...
     # st.write("To check for updates, click button at bottom of page, then reload browser.)")
