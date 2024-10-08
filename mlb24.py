@@ -13,13 +13,14 @@ def load_hit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24_summary.csv"))
 hit = load_hit()
 #hit columns: 
-#['Name', 'Pos', 'Age', 'PA', 'R', 'RBI', '2B', 'HR', 'SB', 'CS', 'BBpct','Kpct', 
-#'RC27', 'OPS', 'XWOBA', 'O', 'Def', 'BsR', 'WAR', 'wRC+','RJML', 'SSBL', 'CJPL',
-# 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL','avgR', 'obpR', 'slgR', 'opsR']
+#['Name', 'Pos', 'Age', 'PA', 'R', 'RBI', '2B', 'HR', 'SB', 'CS', 'bb%',
+#       'k%', 'RC27', 'OPS', 'XWOBA', 'O', 'Def', 'BsR', 'WAR', 'wRC+', 'RJML',
+#       'SSBL', 'CJPL', 'key_FG', 'avgL', 'obpL', 'slgL', 'opsL', 'avgR',
+#       'obpR', 'slgR', 'opsR']
 #selected columns here:
 select_hit_cols = ['Name','Pos','Age','PA','R','RBI','HR','SB','obpL',
-                   'slgL','obpR','slgR','XWOBA','BBpct','Kpct','RC27','Def','BsR','WAR']
-hit['Pos'] = hit['Pos'].replace(",","",regex=True) #streamlit introduces commas for integers > 999
+                   'slgL','obpR','slgR','XWOBA','bb%','k%','RC27','Def','BsR','WAR']
+#hit['Pos'] = hit['Pos'].replace(",","",regex=True) #streamlit introduces commas for integers > 999
 
 @st.cache_data
 def load_pit():
