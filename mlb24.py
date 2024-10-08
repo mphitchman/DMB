@@ -59,7 +59,7 @@ teams = hit[hit[selected_league].notna()][selected_league].unique().tolist()
 teams.sort()
 
 
-col1, col2 = st.columns([2,10])
+col1, col2 = st.columns([1,11])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
