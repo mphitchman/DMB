@@ -121,7 +121,7 @@ st.header("MLB'24 Stats for "+selected_league+" Teams",divider = 'blue')
 #get nice teams list for selectboxes
 teams = hit24[hit24[selected_league].notna()][selected_league].unique().tolist()
 teams.sort()
-teams.remove('avail')
+#teams.remove('avail')
 teams = teams+['Team Totals']
 
 col1, col2 = st.columns([2,10])
