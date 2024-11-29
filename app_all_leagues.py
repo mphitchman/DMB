@@ -136,7 +136,7 @@ col1, col2 = st.columns([2,10])
 
 with col1:
     selected_team = st.selectbox("Select a team",teams,index=teams.index(my_team))
-    st.write("Last update: 11/29/24 ")
+    st.write("Last update: 29-Nov-24")
     #if we want clear cache button...
     # st.write("To check for updates, click button at bottom of page, then reload browser.)")
 
