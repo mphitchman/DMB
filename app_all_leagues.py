@@ -81,17 +81,19 @@ pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER
 #####
 
 ### Aggregate functions 
-def weighted_avg(df,n="PA",x="xwOBA",rd=3):
+def weighted_avg(df,n="PA",x="XWOBA",rd=3):
     return(round(sum(df[n]*df[x])/sum(df[n]),rd))
 
 def team_stats(lg="RJML",tm="VAN"):
     bf = hit24[hit24[lg]==tm].set_index('Name')
     bf.loc['Team']= bf.sum()
     bf2 = hit_rate_stats(runs_created(bf))
-    bf2.at['Team', 'xwOBA'] = weighted_avg(bf2.drop("Team"),"PA","xwOBA",3) #weighted xwOBA by players PA
+    bf2.at['Team', 'XWOBA'] = weighted_avg(bf2.drop("Team"),"PA","XWOBA",3) #weighted xwOBA by players PA
     bf2.at['Team', 'Pos'] = '-'
+    bf2.at['Team', 'opsL'] = '-'
+    bf2.at['Team', 'opsR'] = '-'
     bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']].astype(int)
-    bf3 = bf2[['PA','AB','H','XBH','HR','R','RBI','SB','BB','SO','avg','obp','slg','ops','xwOBA','RC27','WAR','Pos']]
+    bf3 = bf2[['PA','opsL','opsR','XBH','HR','R','RBI','SB','BB','SO','AVG','OBP','SLG','OPS','XWOBA','RC27','WAR','Pos']]
         
     pf = pit24[pit24[lg]==tm].set_index('Name')
     pf.loc['Team']= pf.sum()
@@ -99,8 +101,9 @@ def team_stats(lg="RJML",tm="VAN"):
     pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','SO']] = pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','SO']].astype(int)
     pf2['Inn'] = round(pf2['Inn'],1)
     pf2.at['Team', 'xFIP'] = weighted_avg(pf2.drop("Team"),"TBF","xFIP",2) #weighted xFIP by players TBF
-    pf3 = pf2[['G','GS','W','L','SV','TBF','Inn','H','ER','HR','BB','SO','era','whip','k%','bb%','hr9','xFIP','RC27','WAR',
-               'k-bb%']]
+    pf2.at['Team', 'opsL'] = '-'
+    pf2.at['Team', 'opsR'] = '-'
+    pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','Inn','H','ER','HR','BB','SO','ERA','WHIP','k%','bb%','hr9','xFIP','RC27','WAR','k-bb%']]
     dfs = [bf3,pf3]
     return(dfs)
 
@@ -156,7 +159,7 @@ with col2:
                 "OBP": st.column_config.NumberColumn(format="%.3f"),
                 "SLG": st.column_config.NumberColumn(format="%.3f"),
                 "OPS": st.column_config.NumberColumn(format="%.3f"),
-                "xwOBA": st.column_config.NumberColumn(format="%.3f"),
+                "XWOBA": st.column_config.NumberColumn(format="%.3f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
                 "WAR": st.column_config.NumberColumn(format="%.1f"),
                 "Def": st.column_config.NumberColumn(format="%.1f"),
@@ -182,13 +185,13 @@ with col2:
     
     with tab3:
         #find mlb avgs (estimate in the case of xwoba)
-        mph = hit24[['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','SO','GDP','O','WAR','Def','BsR','RC','xwOBA']].copy()
+        mph = hit24[['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','SO','GDP','O','WAR','Def','BsR','RC','XWOBA']].copy()
         mph.loc['Total',:]=mph.sum()
         lg_avg = hit_rate_stats(runs_created(mph))
-        lg_avg.at['Total', 'xwOBA'] = weighted_avg(lg_avg.drop("Total"),"PA","xwOBA",3)
+        lg_avg.at['Total', 'XWOBA'] = weighted_avg(lg_avg.drop("Total"),"PA","XWOBA",3)
         lg_ops = lg_avg.at['Total','ops']
         lg_kbb = lg_avg.at['Total','k-bb%']
-        lg_xwoba = lg_avg.at['Total','xwOBA']
+        lg_xwoba = lg_avg.at['Total','XWOBA']
         lg_rc27 = lg_avg.at['Total','RC27'] 
         colA,colB = st.columns([5,5])
 
