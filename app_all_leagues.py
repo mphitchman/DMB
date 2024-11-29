@@ -19,6 +19,10 @@ def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
 
+if ('2B' not in pit.columns) & ('D' in pit.columns):
+    pit['2B'] = pit['D']
+if ('3B' not in pit.columns) & ('T' in pit.columns):
+    pit['3B'] = pit['T']
 
 ### team total rate functions
 def hit_rate_stats(df):
