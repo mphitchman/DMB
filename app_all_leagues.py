@@ -89,9 +89,9 @@ def team_stats(lg="RJML",tm="VAN"):
     bf.loc['Team']= bf.sum()
     bf2 = hit_rate_stats(runs_created(bf))
     bf2.at['Team', 'XWOBA'] = weighted_avg(bf2.drop("Team"),"PA","XWOBA",3) #weighted xwOBA by players PA
+    bf2.at['Team','opsL'] = weighted_avg(bf2.drop("Team"),"PAL","opsL",3)
+    bf2.at['Team','opsR'] = weighted_avg(bf2.drop("Team"),"PAR","opsR",3)
     bf2.at['Team', 'Pos'] = '-'
-    bf2.at['Team', 'opsL'] = '-'
-    bf2.at['Team', 'opsR'] = '-'
     bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','K','XBH']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','K','XBH']].astype(int)
     bf3 = bf2[['PA','opsL','opsR','XBH','HR','R','RBI','SB','BB','K','AVG','OBP','SLG','OPS','XWOBA','RC27','WAR','Pos']]
         
@@ -101,8 +101,8 @@ def team_stats(lg="RJML",tm="VAN"):
     pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','K']] = pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','K']].astype(int)
     pf2['Inn'] = round(pf2['Inn'],1)
     pf2.at['Team', 'xFIP'] = weighted_avg(pf2.drop("Team"),"TBF","xFIP",2) #weighted xFIP by players TBF
-    pf2.at['Team', 'opsL'] = '-'
-    pf2.at['Team', 'opsR'] = '-'
+    pf2.at['Team','opsL'] = weighted_avg(pf2.drop("Team"),"TBFL","opsL",3)
+    pf2.at['Team','opsR'] = weighted_avg(pf2.drop("Team"),"TBFR","opsR",3)
     pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','Inn','H','ER','HR','BB','K','ERA','WHIP','k%','bb%','hr9','xFIP','RC27','WAR','k-bb%']]
     dfs = [bf3,pf3]
     return(dfs)
