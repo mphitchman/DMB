@@ -29,7 +29,7 @@ def hit_rate_stats(df):
     df['OPS'] = df['OBP']+df['SLG']
     df['k%'] = round(df['K']/df['PA']*100,1)
     df['bb%'] = round(df['BB']/df['PA']*100,1)
-    df['BABIP'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
+    df['BABIP'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['K']+df['SF']),3)
     df['k-bb%'] = df['k%']-df['bb%']
     return(df)
 
@@ -47,7 +47,7 @@ def pit_rate_stats(df):
     df['hr9'] = round(df['HR']/df['Inn']*9,1)
     df['WHIP'] = round((df['BB']+df['H'])/df['Inn'],2)
     df['ERA'] = round(df['ER']/df['Inn']*9,2)
-    df['babip'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
+    df['BABIP'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['K']+df['SF']),3)
     df['k-bb%'] = df['k%']-df['bb%']
     return(df)
 
