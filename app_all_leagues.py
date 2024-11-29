@@ -19,15 +19,10 @@ def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
 
-#if ('2B' not in pit.columns) & ('D' in pit.columns):
-#    pit['2B'] = pit['D']
-#if ('3B' not in pit.columns) & ('T' in pit.columns):
-#    pit['3B'] = pit['T']
-
 ### team total rate functions
+
 def hit_rate_stats(df):
-    import numpy as np
-    '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','K','HBP','SF']'''
+    # df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','K','HBP','SF']
     df['AVG'] = round(df['H']/df['AB'],3)
     df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
     df['SLG'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
@@ -39,9 +34,7 @@ def hit_rate_stats(df):
     return(df)
 
 def pit_rate_stats(df):
-    '''df must have these columns: ['Inn','TBF','AB','H','2B','3B','HR','ER','BB','K','HBP','SF']'''
-    import numpy as np
-    #df['Inn'] = np.floor(df['IP'])+10*(df['IP']-np.floor(df['IP']))/3
+    # df must have these columns: ['Inn','TBF','AB','H','2B','3B','HR','ER','BB','K','HBP','SF']
     df['AVG'] = round(df['H']/df['AB'],3)
     df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
     df['SLG'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
@@ -57,8 +50,7 @@ def pit_rate_stats(df):
     return(df)
 
 def runs_created(df):
-    '''df must have these columns: ['H','2B','3B','HR','BB','IBB','HBP','SF','SH','GDP','CS']'''
-    #currently pit24 is missing 'SH'
+    #df must have these columns: ['H','2B','3B','HR','BB','IBB','HBP','SF','SH','GDP','CS']
     if 'SH' not in df.columns:
         df['SH'] = 0
     df['RC'] = round(((df['H']+df['BB']+df['HBP']-df['CS']-df['GDP'])*
