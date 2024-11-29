@@ -26,7 +26,7 @@ if ('3B' not in pit.columns) & ('T' in pit.columns):
 
 ### team total rate functions
 def hit_rate_stats(df):
-    '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','SO','HBP','SF']'''
+    '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','K','HBP','SF']'''
     df['AVG'] = round(df['H']/df['AB'],3)
     df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
     df['SLG'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
@@ -38,7 +38,7 @@ def hit_rate_stats(df):
     return(df)
 
 def pit_rate_stats(df):
-    '''df must have these columns: ['Inn','TBF','AB','H','2B','3B','HR','ER','BB','SO','HBP','SF']'''
+    '''df must have these columns: ['Inn','TBF','AB','H','2B','3B','HR','ER','BB','K','HBP','SF']'''
     import numpy as np
     #df['Inn'] = np.floor(df['IP'])+10*(df['IP']-np.floor(df['IP']))/3
     df['AVG'] = round(df['H']/df['AB'],3)
@@ -92,18 +92,18 @@ def team_stats(lg="RJML",tm="VAN"):
     bf2.at['Team', 'Pos'] = '-'
     bf2.at['Team', 'opsL'] = '-'
     bf2.at['Team', 'opsR'] = '-'
-    bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','SO','XBH']].astype(int)
-    bf3 = bf2[['PA','opsL','opsR','XBH','HR','R','RBI','SB','BB','SO','AVG','OBP','SLG','OPS','XWOBA','RC27','WAR','Pos']]
+    bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','K','XBH']] = bf2[['PA','O','2B','3B','HR','R','RBI','SB','CS','BB','K','XBH']].astype(int)
+    bf3 = bf2[['PA','opsL','opsR','XBH','HR','R','RBI','SB','BB','K','AVG','OBP','SLG','OPS','XWOBA','RC27','WAR','Pos']]
         
     pf = pit24[pit24[lg]==tm].set_index('Name')
     pf.loc['Team']= pf.sum()
     pf2 = pit_rate_stats(runs_created(pf))
-    pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','SO']] = pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','SO']].astype(int)
+    pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','K']] = pf2[['G','GS','W','L','SV','TBF','H','ER','HR','BB','K']].astype(int)
     pf2['Inn'] = round(pf2['Inn'],1)
     pf2.at['Team', 'xFIP'] = weighted_avg(pf2.drop("Team"),"TBF","xFIP",2) #weighted xFIP by players TBF
     pf2.at['Team', 'opsL'] = '-'
     pf2.at['Team', 'opsR'] = '-'
-    pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','Inn','H','ER','HR','BB','SO','ERA','WHIP','k%','bb%','hr9','xFIP','RC27','WAR','k-bb%']]
+    pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','Inn','H','ER','HR','BB','K','ERA','WHIP','k%','bb%','hr9','xFIP','RC27','WAR','k-bb%']]
     dfs = [bf3,pf3]
     return(dfs)
 
@@ -185,7 +185,7 @@ with col2:
     
     with tab3:
         #find mlb avgs (estimate in the case of xwoba)
-        mph = hit24[['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','SO','GDP','O','WAR','Def','BsR','RC','XWOBA']].copy()
+        mph = hit24[['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','K','GDP','O','WAR','Def','BsR','RC','XWOBA']].copy()
         mph.loc['Total',:]=mph.sum()
         lg_avg = hit_rate_stats(runs_created(mph))
         lg_avg.at['Total', 'XWOBA'] = weighted_avg(lg_avg.drop("Total"),"PA","XWOBA",3)
