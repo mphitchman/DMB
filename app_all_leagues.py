@@ -76,7 +76,7 @@ hit24['XBH']=hit24['2B']+hit24['3B']+hit24['HR']
 
 #counting stats considered
 hit_count_stats = ['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','K','GDP','O','WAR','Def','BsR','RC']
-pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','K','SB','CS','WAR','RC']
+pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','K','SB','CS','WAR','RC','GB','battedballs']
 
 
 #####
@@ -104,7 +104,7 @@ def team_stats(lg="RJML",tm="VAN"):
     pf2.at['Team', 'xFIP'] = weighted_avg(pf2.drop("Team"),"TBF","xFIP",2) #weighted xFIP by players TBF
     pf2.at['Team','opsL'] = weighted_avg(pf2.drop("Team"),"TBFL","opsL",3)
     pf2.at['Team','opsR'] = weighted_avg(pf2.drop("Team"),"TBFR","opsR",3)
-    pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','Inn','H','ER','HR','BB','K','ERA','WHIP','k%','bb%','hr9','xFIP','RC27','WAR','k-bb%']]
+    pf3 = pf2[['G','GS','opsL','opsR','W','L','SV','TBF','H','ER','HR','BB','K','ERA','WHIP','k%','bb%','hr9','gb%','xFIP','RC27','WAR','k-bb%']]
     dfs = [bf3,pf3]
     return(dfs)
 
@@ -180,6 +180,7 @@ with col2:
                 "hr9": st.column_config.NumberColumn(format="%.1f"),
                 "bb%": st.column_config.NumberColumn(format="%.1f"),
                 "k%": st.column_config.NumberColumn(format="%.1f"),
+                "gb%": st.column_config.NumberColumn(format="%.1f"),
                 "Inn": st.column_config.NumberColumn(format="%.1f"),
             }
         )
