@@ -10,26 +10,26 @@ st.set_page_config(layout="wide")
 ### load tables
 @st.cache_data
 def load_hit():
-    return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24.csv"))
+    return(pd.read_csv("https://mphitchman.com/DMB/csv/hit24_summary.csv"))
 hit = load_hit()
 hit['Pos'] = hit['Pos'].replace(",","",regex=True)
 
 @st.cache_data
 def load_pit():
-    return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24.csv"))
+    return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
 
 
 ### team total rate functions
 def hit_rate_stats(df):
     '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','SO','HBP','SF']'''
-    df['avg'] = round(df['H']/df['AB'],3)
-    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
-    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
-    df['ops'] = df['obp']+df['slg']
-    df['k%'] = round(df['SO']/df['PA']*100,1)
+    df['AVG'] = round(df['H']/df['AB'],3)
+    df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
+    df['SLG'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
+    df['OPS'] = df['OBP']+df['SLG']
+    df['k%'] = round(df['K']/df['PA']*100,1)
     df['bb%'] = round(df['BB']/df['PA']*100,1)
-    df['babip'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
+    df['BABIP'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
     df['k-bb%'] = df['k%']-df['bb%']
     return(df)
 
@@ -37,15 +37,16 @@ def pit_rate_stats(df):
     '''df must have these columns: ['Inn','TBF','AB','H','2B','3B','HR','ER','BB','SO','HBP','SF']'''
     import numpy as np
     #df['Inn'] = np.floor(df['IP'])+10*(df['IP']-np.floor(df['IP']))/3
-    df['avg'] = round(df['H']/df['AB'],3)
-    df['obp'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
-    df['slg'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
-    df['ops'] = df['obp']+df['slg']
-    df['k%'] = round(df['SO']/df['TBF']*100,1)
+    df['AVG'] = round(df['H']/df['AB'],3)
+    df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
+    df['SLG'] = round((df['H']+df['2B']+2*df['3B']+3*df['HR'])/df['AB'],3)
+    df['OPS'] = df['OBP']+df['SLG']
+    df['k%'] = round(df['K']/df['TBF']*100,1)
     df['bb%'] = round(df['BB']/df['TBF']*100,1)
+    df['gb%'] = round(df['GB']/df['battedballs']*100,1)
     df['hr9'] = round(df['HR']/df['Inn']*9,1)
-    df['whip'] = round((df['BB']+df['H'])/df['Inn'],2)
-    df['era'] = round(df['ER']/df['Inn']*9,2)
+    df['WHIP'] = round((df['BB']+df['H'])/df['Inn'],2)
+    df['ERA'] = round(df['ER']/df['Inn']*9,2)
     df['babip'] = round((df['H']-df['HR'])/(df['AB']-df['HR']-df['SO']+df['SF']),3)
     df['k-bb%'] = df['k%']-df['bb%']
     return(df)
@@ -69,8 +70,8 @@ pit24 = pit_rate_stats(runs_created(pit))
 hit24['XBH']=hit24['2B']+hit24['3B']+hit24['HR']
 
 #counting stats considered
-hit_count_stats = ['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','SO','GDP','O','WAR','Def','BsR','RC']
-pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','WP','BK','SO','SB','CS','WAR','RC']
+hit_count_stats = ['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','K','GDP','O','WAR','Def','BsR','RC']
+pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','WP','BK','K','SB','CS','WAR','RC','GB','battedballs']
 
 
 #####
@@ -147,10 +148,10 @@ with col2:
         st.dataframe(
             hit_tm,
             column_config={
-                "avg": st.column_config.NumberColumn(format="%.3f"),
-                "obp": st.column_config.NumberColumn(format="%.3f"),
-                "slg": st.column_config.NumberColumn(format="%.3f"),
-                "ops": st.column_config.NumberColumn(format="%.3f"),
+                "AVG": st.column_config.NumberColumn(format="%.3f"),
+                "OBP": st.column_config.NumberColumn(format="%.3f"),
+                "SLG": st.column_config.NumberColumn(format="%.3f"),
+                "OPS": st.column_config.NumberColumn(format="%.3f"),
                 "xwOBA": st.column_config.NumberColumn(format="%.3f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
                 "WAR": st.column_config.NumberColumn(format="%.1f"),
@@ -163,9 +164,9 @@ with col2:
         st.dataframe(
             pit_tm,
             column_config={
-                "era": st.column_config.NumberColumn(format="%.2f"),
+                "ERA": st.column_config.NumberColumn(format="%.2f"),
                 "xFIP": st.column_config.NumberColumn(format="%.2f"),
-                "whip": st.column_config.NumberColumn(format="%.2f"),
+                "WHIP": st.column_config.NumberColumn(format="%.2f"),
                 "WAR": st.column_config.NumberColumn(format="%.1f"),
                 "RC27": st.column_config.NumberColumn(format="%.1f"),
                 "hr9": st.column_config.NumberColumn(format="%.1f"),
@@ -195,7 +196,7 @@ with col2:
         
         with colA:
              hit_tm['Team']=hit_tm.index=='Team'
-             fig = px.scatter(hit_tm.reset_index(), x='ops',y='RC27',color='Team',
+             fig = px.scatter(hit_tm.reset_index(), x='OPS',y='RC27',color='Team',
                               hover_name = hovname,
                               hover_data = {'Team':False, # remove Team from hover data
                                             'ops':':.3f',
