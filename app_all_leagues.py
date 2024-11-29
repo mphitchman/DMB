@@ -19,13 +19,14 @@ def load_pit():
     return(pd.read_csv("https://mphitchman.com/DMB/csv/pit24_summary.csv"))
 pit = load_pit()
 
-if ('2B' not in pit.columns) & ('D' in pit.columns):
-    pit['2B'] = pit['D']
-if ('3B' not in pit.columns) & ('T' in pit.columns):
-    pit['3B'] = pit['T']
+#if ('2B' not in pit.columns) & ('D' in pit.columns):
+#    pit['2B'] = pit['D']
+#if ('3B' not in pit.columns) & ('T' in pit.columns):
+#    pit['3B'] = pit['T']
 
 ### team total rate functions
 def hit_rate_stats(df):
+    import numpy as np
     '''df must have these columns: ['PA','AB','AB','H','2B','3B','HR','BB','K','HBP','SF']'''
     df['AVG'] = round(df['H']/df['AB'],3)
     df['OBP'] = round((df['H']+df['BB']+df['HBP'])/(df['AB']+df['BB']+df['HBP']+df['SF']),3)
@@ -75,7 +76,7 @@ hit24['XBH']=hit24['2B']+hit24['3B']+hit24['HR']
 
 #counting stats considered
 hit_count_stats = ['PA','AB','H','BB','HBP','IBB','SF','2B','3B','HR','R','RBI','SB','CS','SH','K','GDP','O','WAR','Def','BsR','RC']
-pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','WP','BK','K','SB','CS','WAR','RC','GB','battedballs']
+pit_count_stats = ['G','GS','W','L','SV','Inn','TBF','AB','H','2B','3B','SF','ER','HR','BB','HBP','IBB','GDP','K','SB','CS','WAR','RC']
 
 
 #####
