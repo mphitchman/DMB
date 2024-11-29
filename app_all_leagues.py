@@ -189,7 +189,7 @@ with col2:
         mph.loc['Total',:]=mph.sum()
         lg_avg = hit_rate_stats(runs_created(mph))
         lg_avg.at['Total', 'XWOBA'] = weighted_avg(lg_avg.drop("Total"),"PA","XWOBA",3)
-        lg_ops = lg_avg.at['Total','ops']
+        lg_ops = lg_avg.at['Total','OPS']
         lg_kbb = lg_avg.at['Total','k-bb%']
         lg_xwoba = lg_avg.at['Total','XWOBA']
         lg_rc27 = lg_avg.at['Total','RC27'] 
@@ -206,7 +206,7 @@ with col2:
              fig = px.scatter(hit_tm.reset_index(), x='OPS',y='RC27',color='Team',
                               hover_name = hovname,
                               hover_data = {'Team':False, # remove Team from hover data
-                                            'ops':':.3f',
+                                            'OPS':':.3f',
                                             'RC27':':.1f',
                                             'PA': True},
                                             title=selected_team+" Hitting OPS and RC27")
